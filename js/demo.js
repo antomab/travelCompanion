@@ -2,42 +2,42 @@ function demo () {
     var EVENTS = {
         tap: 'tap',
         doubleTap: 'doubletap',
-        hold: 'presshold',
-        zoomIn: 'zoomin',
-        zoomOut: 'zoomout',
+        press: 'press',
+        pinch: 'pinch',
+        pinchIn: 'pinchin',
+        pinchOut: 'pinchout',
+        swipe: 'swipe',
         swipeUp: 'swipeup',
         swipeDown: 'swipeDown'
     }
     var scenario1 = $('#scenario1')[0];
-    var gestures = new Hammer(scenario1);
+    var gestures = new Hammer(scenario1); // { prevent_default: true }
 
-    function setupRecognizers () {           
-        var singleTap = new Hammer.Tap({ event: EVENTS.tap });
+    function setupRecognizers () {      
+        // Tap and Double Tap     
+        var singleTap = new Hammer.Tap({ event: EVENTS.tap, taps: 1 });
         var doubleTap = new Hammer.Tap({ event: EVENTS.doubleTap, taps: 2 });
 
         gestures.add([doubleTap, singleTap]);
         
         doubleTap.recognizeWith(singleTap);
-        singleTap.requireFailure(doubleTap);
-        
+        singleTap.requireFailure(doubleTap);        
 
         // Tap and Hold
-        //gestures.add(new Hammer.Press({ event: 'taphold' }));
-
-        // we want to recognize this simulatenous, so a quadrupletap will be detected even while a tap has been recognized.
-        // gestures.get('doubletap').recognizeWith('singletap');
-        // // we only want to trigger a tap, when we don't have detected a doubletap
-        // gestures.get('singletap').requireFailure('doubletap');
+        gestures.add(new Hammer.Press({ time: 500 }));     
 
         // Zoom in/out
         gestures.add(new Hammer.Pinch());
+        gestures.get(EVENTS.pinch).set({ enable: true });
 
-        // Swipe up/down
-       // gestures.get('pan').set({ direction: Hammer.DIRECTION_VERTICAL });
+        // Swipe up/down (enable vertical swiping first)
+        gestures.add(new Hammer.Swipe());        
+        gestures.get(EVENTS.swipe).set({ direction: Hammer.DIRECTION_VERTICAL });
+        
     }
 
     function setupEventsGeneral () {
-        gestures.on('doubletap', function (e) {
+        gestures.on(EVENTS.doubleTap, function (e) {
             alert('show menu');
         });
 
@@ -54,25 +54,23 @@ function demo () {
         gestures.on(EVENTS.tap, function (e) {
             console.log('play info audio (single tap) - ' + e.tapCount);
         });
+        gestures.on(EVENTS.press, function (e) {
+            console.log('get info surroundings (press)');
+        });
 
-//         $(scenario1).bind(EVENTS.tap, function(e) {
-//             console.log('User tapped #myElement');
-//         });
-// //  put class="doubleTap" on the elements you need to double tap
-// $(scenario1).doubleTap(function(){
-//     console.log('User double tapped #myElement');
-// });
-
-        gestures.on(EVENTS.zoomIn, function (e) {
+        gestures.on(EVENTS.pinchIn, function (e) {
             console.log('zoom in');
         });
-        
-        //   $(scenario1).hammer().bind('singletap', function (e) {
-        //       console.log('play info auidio - again');
-        //   });
-        // gestures.on('taphold', function(e) {
-        //     alert('description of surroundings');
-        // })
+        gestures.on(EVENTS.pinchOut, function (e) {
+            console.log('zoom out');
+        });
+
+        gestures.on(EVENTS.swipe, function (e) {
+            console.log('move menu up - swipe up - ' + e);
+        });
+        // gestures.on(EVENTS.swipeDown, function (e) {
+        //     console.log('move menu down - swipe down');
+        // });
     }
     
 
@@ -80,27 +78,5 @@ function demo () {
     //setupEventsGeneral();
     setupEventsScene1();
 }
-
-
-(function($) {
-    $.fn.doubleTap = function(doubleTapCallback) {
-        return this.each(function(){
-           var elm = this;
-           var lastTap = 0;
-           $(elm).bind('vmousedown', function (e) {
-                               var now = (new Date()).valueOf();
-               var diff = (now - lastTap);
-                               lastTap = now ;
-                               if (diff < 250) {
-                           if($.isFunction( doubleTapCallback ))
-                           {
-                              doubleTapCallback.call(elm);
-                           }
-                               }      
-           });
-        });
-   }
-})(jQuery);
-
 
 demo();
