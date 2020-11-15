@@ -1,7 +1,28 @@
 body {
-    font-family: sans-serif;
-  }
-  .hide {
-    display: none;
-    visibility: hidden;
-  }
+  font-family: sans-serif;
+}
+.hide {
+  display: none;
+  visibility: hidden;
+}
+#menu {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  color: white;
+}
+#menu .menu-slider {
+  margin: 10px;
+  transition: transform .2s ease-in-out;
+}
+#menu .menu-slider div {
+  margin: 10px 0;
+}
+#menu .menu-slider .slick-current {
+  transform: scale(1.5);
+  width: 33% !important;
+}
+
+.slick-slide {  
+  max-height: 200px;
+}
