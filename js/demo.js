@@ -30,11 +30,18 @@ function Demo () {
     
     //setupEventsScene1();
    
-    var onboardingBtn = $('#onboarding .start');
-    onboardingBtn.on('click', function () {
-        onboardingBtn.addClass('hide');
-        onboardingCtrl.start();
-    });   
+    // var onboardingBtn = $('#onboarding .start');
+    // onboardingBtn.on('click', function () {
+    //     onboardingBtn.addClass('hide');
+    //     onboardingCtrl.start();
+    // });
+
+    $(document).on(TCDEMO.MENU.itemChangedEvent, (data) => {
+        console.log('item changed! ' + data.index);
+    });
+
+    menuCtrl.open();
+    
 }
 
 Demo();

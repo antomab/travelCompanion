@@ -68,10 +68,16 @@ function EventsController () {
                 gestures.add(new Hammer.Tap());
                 break;
             case TCDEMO.EVENTS.doubleTap:
-                gestures.add(new Hammer.Tap({ 
+                var singleTap = new Hammer.Tap();
+                var doubleTap = new Hammer.Tap({ 
                     event: TCDEMO.EVENTS.doubleTap,
                     taps: 2,
-                    interval: 800 }));
+                    interval: 800 });
+                
+                doubleTap.recognizeWith(singleTap);
+                singleTap.requireFailure(doubleTap);  
+
+                gestures.add([doubleTap, singleTap]);
                 break;
             case TCDEMO.EVENTS.twoFingerTap:
                 isPauseAudioEnabled = true;
@@ -97,6 +103,10 @@ function EventsController () {
         gestures.on(event, callback);
     };
 
+    function removeHandler (event, callback) {
+        gestures.off(event, callback);
+    };
+
     function start (elementId) {
         scenario = $('#' + elementId)[0];
         gestures = new Hammer(scenario);
@@ -115,6 +125,7 @@ function EventsController () {
         setupAllEvents: setupAllRecognizers,
         setupEvent: setupRecognizer,
         setupHandler: setupHandler,
+        removeHandler: removeHandler,
         toggleAudioPauseEvent: toggleAudioPause 
     }
 };

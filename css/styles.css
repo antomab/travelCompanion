@@ -14,28 +14,34 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+
+/* MENU  */
+
 #menu {
-  position: absolute;
-  top: 100px;
-  left: 100px;
-  color: white;
+  color: #ffffff;
+  width: 80%;
+  overflow: hidden;
 }
-#menu .menu-slider {
-  margin: 10px;
-  transition: transform .2s ease-in-out;
+#menu .tns-liveregion {
+  display: none;
 }
-#menu .menu-slider div {
+#menu .tns-item {
+  height: 70px;
+}
+#menu .tns-item img {
+  height: 100%;
+}
+#menu .center {
+  -webkit-transform: scale(1.25);
+  -moz-transform: scale(1.25);
+  transform: scale(1.25);
+  transform-origin: left;
   margin: 10px 0;
 }
-#menu .menu-slider .slick-current {
-  transform: scale(1.5);
-  width: 33% !important;
-}
 
-.slick-slide {  
-  max-height: 200px;
-}
 
+/* ONBOARDING */
 #onboarding .start {
   z-index: 900;
   font-size: 24px;
