@@ -81,6 +81,7 @@ function EventsController () {
 
                 gestures.add([doubleTap, singleTap]);
                 gestures.get(TCDEMO.EVENTS.doubleTap).dropRequireFailure(TCDEMO.EVENTS.singleTap);
+
                 break;
             case TCDEMO.EVENTS.twoFingerTap:
                 enableAudioPause();
@@ -110,23 +111,24 @@ function EventsController () {
         gestures.off(event, callback);
     };
 
+    function setupDoubleClickEvent(callback) {
+        $(scenario).dblclick(callback);
+    };
+
     function start (elementId) {
         scenario = $('#' + elementId)[0];
         gestures = new Hammer(scenario);
         $(document.body).on("contextmenu", stopDefaultContextMenu);
-
-        $(document.body).dblclick(function(){
-            console.log('double click detected');
-            $(document.body).addClass('test');
-        });
     };
 
     function stop () {
+        $(document.body).off("contextmenu", stopDefaultContextMenu);
+        $(scenario).off( "dblclick" );
+
         gestures.destroy();
         gestures = null;
         scenario = null;
-        isPauseAudioEnabled = false;
-        $(document.body).off("contextmenu", stopDefaultContextMenu);
+        isPauseAudioEnabled = false;       
     };
 
     return {
@@ -135,6 +137,7 @@ function EventsController () {
         setupAllEvents: setupAllRecognizers,
         setupEvent: setupRecognizer,
         setupHandler: setupHandler,
+        setupDoubleClick: setupDoubleClickEvent,
         removeHandler: removeHandler,
         toggleAudioPauseEvent: toggleAudioPause 
     }

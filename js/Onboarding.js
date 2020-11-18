@@ -190,10 +190,13 @@ function Onboarding () {
                 var step4RefreshIntervalId;
 
                 // set up double-tap event to bring up menu
-                eventsController.setupEvent(TCDEMO.EVENTS.doubleTap);
-                eventsController.setupHandler(TCDEMO.EVENTS.doubleTap, function () { 
+                // eventsController.setupEvent(TCDEMO.EVENTS.doubleTap);
+                // eventsController.setupHandler(TCDEMO.EVENTS.doubleTap, function () { 
+                //     onDoubleTapCallback(step4RefreshIntervalId)
+                // }); 
+                eventsController.setupDoubleClick(function () { 
                     onDoubleTapCallback(step4RefreshIntervalId)
-                }); 
+                });
 
                 // play instructions
                 playCurrentStepAudio();
@@ -240,7 +243,7 @@ function Onboarding () {
                     audioController.play(audiosOther.guide.audioSrc);
                     
                     // move to the next step when audio finishes
-                    setTimeout(nextStep, audiosOther.guide.length + 2000);
+                    setTimeout(nextStep, audiosOther.guide.length + 4000);
 
                 }, steps[currentStep - 1].length + 3000);            
               
