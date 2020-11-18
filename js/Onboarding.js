@@ -129,6 +129,16 @@ function Onboarding () {
         nextStep();
     };
 
+    function step6OnPressCallback (refreshIntervalId) {
+        clearInterval(refreshIntervalId);
+
+        // play surroundings audio
+        audioController.play(audiosOther.surroundings.audioSrc, false);
+
+        // allow audio to play out before moving on
+        setTimeout(() => nextStep(), audiosOther.surroundings.length + 2000);
+    };
+
     function onDoubleTapCallback (refreshIntervalId) {
         clearInterval(refreshIntervalId);
 
@@ -223,11 +233,26 @@ function Onboarding () {
                 } 
             break;
             case 6:  
-                /*
-                    play audio 
-                    if after 5s press&hold wasn't triggered, prompt again
-                    after press&hold finishes go to step 8
-                    */
+                    // temporarily pause handling of audioStopped event
+                    stopHandlingAudioStoppedEvent();
+
+                    var wasPressed = false;
+                    var step6RefreshIntervalId;
+
+                    // play instructions
+                    audioController.play(steps[currentStep - 1].audioSrc);
+
+                    // allow instructions to start playing before continuing
+                    setTimeout(function () {
+                        // set up Tap event
+                        eventsController.setupEvent(TCDEMO.EVENTS.press);
+                        eventsController.setupHandler(TCDEMO.EVENTS.press, () => step6OnPressCallback(step6RefreshIntervalId));                
+                        
+                        // play a reminder to Tap if nothing happens after every 5s
+                        step6RefreshIntervalId = setInterval(() => reminderCallback(wasPressed), 10000);
+
+                    }, steps[currentStep - 1].length + 3000);
+
             case 7:  
                     /*
                     play audio
