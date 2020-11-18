@@ -1,6 +1,9 @@
 body {
   font-family: sans-serif;
 }
+.test img {
+  border: 6px solid red;
+}
 .hide {
   display: none;
   visibility: hidden;

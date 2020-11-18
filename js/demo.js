@@ -36,9 +36,9 @@ function Demo () {
         onboardingCtrl.start();        
     });
 
-    $(document).on(TCDEMO.MENU.itemChangedEvent, (data) => {
-        console.log('item changed! ' + data.index);
-    });
+    // $(document).on(TCDEMO.MENU.itemChangedEvent, (data) => {
+    //     console.log('item changed! ' + data.index);
+    // });
 }
 
 Demo();

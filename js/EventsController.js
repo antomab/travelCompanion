@@ -32,13 +32,13 @@ function EventsController () {
     function enableAudioPause () {
         isPauseAudioEnabled = true;
 
-        $(document.body).on("contextmenu", stopDefaultContextMenu);
+        // $(document.body).on("contextmenu", stopDefaultContextMenu);
     };
 
     function disableAudioPause () {
         isPauseAudioEnabled = false;
 
-        $(document.body).off("contextmenu", stopDefaultContextMenu);
+        //$(document.body).off("contextmenu", stopDefaultContextMenu);
     };
 
     function toggleAudioPause () { 
@@ -60,6 +60,8 @@ function EventsController () {
         singleTap.requireFailure(doubleTap);        
 
         gestures.add([zoom, hold, twoFingerTap, doubleTap, singleTap]);
+
+        gestures.get(TCDEMO.EVENTS.doubleTap).dropRequireFailure(TCDEMO.EVENTS.singleTap)
     };
     
     function setupRecognizer (event) {
@@ -72,12 +74,13 @@ function EventsController () {
                 var doubleTap = new Hammer.Tap({ 
                     event: TCDEMO.EVENTS.doubleTap,
                     taps: 2,
-                    interval: 800 });
+                    interval: 900 });
                 
                 doubleTap.recognizeWith(singleTap);
                 singleTap.requireFailure(doubleTap);  
 
                 gestures.add([doubleTap, singleTap]);
+                gestures.get(TCDEMO.EVENTS.doubleTap).dropRequireFailure(TCDEMO.EVENTS.singleTap);
                 break;
             case TCDEMO.EVENTS.twoFingerTap:
                 enableAudioPause();
@@ -110,6 +113,12 @@ function EventsController () {
     function start (elementId) {
         scenario = $('#' + elementId)[0];
         gestures = new Hammer(scenario);
+        $(document.body).on("contextmenu", stopDefaultContextMenu);
+
+        $(document.body).dblclick(function(){
+            console.log('double click detected');
+            $(document.body).addClass('test');
+        });
     };
 
     function stop () {
@@ -117,6 +126,7 @@ function EventsController () {
         gestures = null;
         scenario = null;
         isPauseAudioEnabled = false;
+        $(document.body).off("contextmenu", stopDefaultContextMenu);
     };
 
     return {

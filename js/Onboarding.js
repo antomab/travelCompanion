@@ -9,48 +9,41 @@ function Onboarding () {
     var steps = [
         {
             step: '1',
-            description: 'when you hear this sound on its own [chime]...',
-            audioSrc: 'assets/audios/onboarding/chimeDescription.mp3',
+            description: 'welcome and lets practice',
+            audioSrc: 'assets/audios/onboarding/welcome.mp3',
             element: '',
-            length: 6000
+            length: 7000
         },
         {
             step: '2',
-            description: 'lets go over the gestures you can use',
-            audioSrc: 'assets/audios/onboarding/letsgooverthegestures.mp3',
-            element: '',
-            length: 2000
+            description: 'to activate a live card tap once',
+            audioSrc: 'assets/audios/onboarding/activeCards.mp3',
+            element: 'live-card',
+            length: 5000
         },
         {
             step: '3',
-            description: 'to activate a live card tap once',
-            audioSrc: 'assets/audios/onboarding/taponce.mp3',
-            element: 'live-card',
-            length: 3000
-        },
-        {
-            step: '4',
             description: 'to bring up the menu double tap',
             audioSrc: 'assets/audios/onboarding/bringupmenu.mp3',
             element: 'menu',
             length: 2000
         },
         {
-            step: '5',
+            step: '4',
             description: 'scroll up down menu and dismiss',
             audioSrc: 'assets/audios/onboarding/swipeanddismissmenu.mp3',
             element: 'menu',
             length: 2000
         },
         {
-            step: '6',
+            step: '5',
             description: 'press and hold to get description',
             audioSrc: 'assets/audios/onboarding/presshold.mp3',
             element: '',
             length: 3000
         },
         {
-            step: '7',
+            step: '6',
             description: 'you can pause audio',
             audioSrc: 'assets/audios/onboarding/pauseaudio.mp3',
             element: '',
@@ -73,33 +66,37 @@ function Onboarding () {
         chime: {
             audioSrc: 'assets/audios/onboarding/beepShort.mp3',
             length: 1000
+        },
+        onboardingEnd: {
+            audioSrc: 'assets/audios/onboarding/finished.mp3',
+            length: 6000
         }
     }
 
-    function handleAudioStoppedEvent () {
-        $(document).on('audioStopped', nextStep);
-    };
+    function playCurrentStepAudio (withPause) {
+        if (typeof(withPause) === 'undefined') withPause = false;
 
-    function stopHandlingAudioStoppedEvent () {
-        $(document).off('audioStopped', nextStep);
+        audioController.play(steps[currentStep - 1].audioSrc, withPause);
     };
 
     function startOnboarding() {
         eventsController.setupScenario(onboardingElemId);
-        handleAudioStoppedEvent();
         currentStep = 1;
         
-        audioController.play(steps[currentStep - 1].audioSrc);
+        playCurrentStepAudio();
+
+        // move to the next step when audio finishes
+        setTimeout(nextStep, steps[currentStep - 1].length + 1000);
     };
 
     function stopOnboarding () {
-        stopHandlingAudioStoppedEvent();
-        eventsController.stopScenario();
+        audioController.play(audiosOther.onboardingEnd.audioSrc);
+        setTimeout(eventsController.stopScenario, audiosOther.onboardingEnd.length);
     };
-    
+
     function reminderCallback (flagHappened) {
         if (!flagHappened) {
-            audioController.play(steps[currentStep - 1].audioSrc, false);
+            playCurrentStepAudio();
         }
     };
 
@@ -107,7 +104,7 @@ function Onboarding () {
         clearInterval(refreshIntervalId);
 
         // play live-card audio
-        audioController.play(audiosOther.liveCard.audioSrc, false);
+        audioController.play(audiosOther.liveCard.audioSrc);
 
         // remove Tap handler
         eventsController.removeHandler(TCDEMO.EVENTS.singleTap, onTapCallback);
@@ -118,33 +115,10 @@ function Onboarding () {
     function step3FinalizeCallback (element) {
         // hide live-card
         element.addClass('hide');
-                                                        
-        // resume handling of audioStopped event
-        handleAudioStoppedEvent();
 
         // move to next step
         nextStep();
     };
-
-    function onPressCallback (refreshIntervalId) {
-        clearInterval(refreshIntervalId);
-
-        // play surroundings audio
-        audioController.play(audiosOther.surroundings.audioSrc, false);
-
-        // allow audio to play out before moving on
-        setTimeout(() => {
-            // enable audio event again
-            handleAudioStoppedEvent();
-
-            nextStep();
-        } , audiosOther.surroundings.length + 2000);
-    };
-
-    function onTwoFingerTapCallback () {
-        // pause/resume audio
-        audioController.toggle();
-    }
 
     function onDoubleTapCallback (refreshIntervalId) {
         clearInterval(refreshIntervalId);
@@ -153,49 +127,57 @@ function Onboarding () {
             // show menu 
             menuCtrl.open();      
             
-            // move to step 5
-            currentStep = 4;
+            // move to step 4
+            currentStep = 3;
         } else {
             // close menu
             menuCtrl.close();
 
-            // enable audio event again
-            handleAudioStoppedEvent();
-
-            // move to step 6
-            currentStep = 5;
+            // move to step 5
+            currentStep = 4;
         }
 
         nextStep();
+    };
+    
+    function onPressCallback (refreshIntervalId) {
+        clearInterval(refreshIntervalId);
+
+        // play surroundings audio
+        audioController.play(audiosOther.surroundings.audioSrc);
+
+        // allow audio to play out before moving on
+        setTimeout(nextStep, audiosOther.surroundings.length + 2000);
+    };
+
+    function onTwoFingerTapCallback () {
+        // pause/resume audio
+        audioController.toggle();
     };
 
     function nextStep () {
         currentStep += 1;
 
-        switch (currentStep) {
-            case 2:
-                audioController.play(steps[currentStep - 1].audioSrc); 
-                break;
-            case 3: 
-                // temporarily pause handling of audioStopped event
-                stopHandlingAudioStoppedEvent();
-
+        switch (currentStep) {            
+            case 2: 
                 var wasTapped = false;
                 var step3RefreshIntervalId;
                 var liveCard = $onboardingElem.find('.' + steps[currentStep - 1].element);
 
+                // set up Tap event
+                eventsController.setupEvent(TCDEMO.EVENTS.singleTap);
+                eventsController.setupHandler(TCDEMO.EVENTS.singleTap, () => onTapCallback(step3RefreshIntervalId, liveCard));                
+
+
                 // play instructions
-                audioController.play(steps[currentStep - 1].audioSrc, false);
+                playCurrentStepAudio(true);
 
                 // allow instructions to start playing before continuing
                 setTimeout(function () {
-                    // set up Tap event
-                    eventsController.setupEvent(TCDEMO.EVENTS.singleTap);
-                    eventsController.setupHandler(TCDEMO.EVENTS.singleTap, () => onTapCallback(step3RefreshIntervalId, liveCard));                
-
+                    
                     // show live card sample, with chime                
                     liveCard.removeClass('hide');
-                    audioController.play(audiosOther.chime.audioSrc, false);
+                    audioController.play(audiosOther.chime.audioSrc);
                     
                     // play a reminder to Tap if nothing happens after every 5s
                     step3RefreshIntervalId = setInterval(() => reminderCallback(wasTapped), 10000);
@@ -203,76 +185,62 @@ function Onboarding () {
                 }, steps[currentStep - 1].length + 3000);
 
                 break;
-            case 4:  
-                // temporarily pause handling of audioStopped event
-                stopHandlingAudioStoppedEvent();
-
+            case 3:  
                 var wasDoubleTapped = false;
                 var step4RefreshIntervalId;
 
+                // set up double-tap event to bring up menu
+                eventsController.setupEvent(TCDEMO.EVENTS.doubleTap);
+                eventsController.setupHandler(TCDEMO.EVENTS.doubleTap, function () { 
+                    onDoubleTapCallback(step4RefreshIntervalId)
+                }); 
+
                 // play instructions
-                audioController.play(steps[currentStep - 1].audioSrc, false);
+                playCurrentStepAudio();
 
-                // allow instructins to start playing before continuing
-                setTimeout(function () {
-                    // set up double-tap event to bring up menu
-                    eventsController.setupEvent(TCDEMO.EVENTS.doubleTap);
-                    eventsController.setupHandler(TCDEMO.EVENTS.doubleTap, function () { 
-                        onDoubleTapCallback(step4RefreshIntervalId)
-                    });
-                    
-                    if (step4RefreshIntervalId === undefined) {
-                        // play a reminder to Double Tap if nothing happens after every 5s
-                        step4RefreshIntervalId = setInterval(function () { 
-                            reminderCallback(wasDoubleTapped) 
-                        }, 10000);
-                    }
-
-                }, steps[currentStep - 1].length + 2000);
+                // play a reminder to Double Tap if nothing happens after every 5s
+                step4RefreshIntervalId = setInterval(function () { 
+                    reminderCallback(wasDoubleTapped) 
+                }, 10000);                   
                 
                 break;
-            case 5:  
+            case 4:  
                 if (menuCtrl.isOpen()) {
                     // play instructions 
-                    audioController.play(steps[currentStep - 1].audioSrc, false); 
+                    playCurrentStepAudio(); 
                 } 
                 break;
-            case 6:  
-                // temporarily pause handling of audioStopped event
-                stopHandlingAudioStoppedEvent();
-
+            case 5:  
                 var wasPressed = false;
                 var step6RefreshIntervalId;
 
+                // set up Press event
+                eventsController.setupEvent(TCDEMO.EVENTS.press);
+                eventsController.setupHandler(TCDEMO.EVENTS.press, () => onPressCallback(step6RefreshIntervalId));                
+                
                 // play instructions
-                audioController.play(steps[currentStep - 1].audioSrc);
+                playCurrentStepAudio(true);
 
-                // allow instructions to start playing before continuing
-                setTimeout(function () {
-                    // set up Tap event
-                    eventsController.setupEvent(TCDEMO.EVENTS.press);
-                    eventsController.setupHandler(TCDEMO.EVENTS.press, () => onPressCallback(step6RefreshIntervalId));                
-                    
-                    // play a reminder to Tap if nothing happens after every 5s
-                    step6RefreshIntervalId = setInterval(() => reminderCallback(wasPressed), 10000);
-
-                }, steps[currentStep - 1].length + 3000);
+                // play a reminder to Tap if nothing happens after every 5s
+                step6RefreshIntervalId = setInterval(() => reminderCallback(wasPressed), 10000);
 
                 break;
-            case 7: 
+            case 6: 
+                // set up TwoFingerTap event
+                eventsController.setupEvent(TCDEMO.EVENTS.twoFingerTap);
+                eventsController.setupHandler(TCDEMO.EVENTS.twoFingerTap, onTwoFingerTapCallback);
+                
                 // play instructions
-                audioController.play(steps[currentStep - 1].audioSrc);
+                playCurrentStepAudio();
 
                 // allow instructions to start playing before continuing
-                setTimeout(function () {
-                    // set up Tap event
-                    eventsController.setupEvent(TCDEMO.EVENTS.twoFingerTap);
-                    eventsController.setupHandler(TCDEMO.EVENTS.twoFingerTap, onTwoFingerTapCallback);                
+                setTimeout(function () {                                    
                    
                     // play audio to test pausing and resuming
                     audioController.play(audiosOther.guide.audioSrc);
                     
-                    // end of audio will trigger nextStep, which will go to default and end onboarding
+                    // move to the next step when audio finishes
+                    setTimeout(nextStep, audiosOther.guide.length + 2000);
 
                 }, steps[currentStep - 1].length + 3000);            
               

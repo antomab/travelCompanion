@@ -2,12 +2,12 @@ function AudioController () {
     var audioElement = $('#audio')[0];
     var fileSrc = '';
 
-    $(audioElement).bind('ended', function(){
-        // done playing
-        $.event.trigger({
-            type: "audioStopped"
-        });
-    });
+    // $(audioElement).bind('ended', function(){
+    //     // done playing
+    //     $.event.trigger({
+    //         type: "audioStopped"
+    //     });
+    // });
     
 
     function setAudioSrc (src) {
@@ -31,7 +31,7 @@ function AudioController () {
     };
 
     function playAudio (src, withPause) {
-        if (typeof(withPause) === 'undefined') withPause = true;
+        if (typeof(withPause) === 'undefined') withPause = false;
 
         if (src) {
             setAudioSrc(src);
