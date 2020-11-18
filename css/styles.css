@@ -21,15 +21,21 @@ body {
 #menu {
   color: #ffffff;
   width: 80%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
-#menu .tns-liveregion {
-  display: none;
+#menu .tns-ovh {
+  /* height: 275px !important; */
 }
 #menu .tns-item {
+  /* height: 70px; */
+}
+#menu #tns1-iw {
+  margin-top: 68px;
+}
+#menu .menu-item {
   height: 70px;
 }
-#menu .tns-item img {
+#menu .menu-item img {
   height: 100%;
 }
 #menu .center {
@@ -37,7 +43,7 @@ body {
   -moz-transform: scale(1.25);
   transform: scale(1.25);
   transform-origin: left;
-  margin: 10px 0;
+  /* margin: 10px 0; */
 }
 
 

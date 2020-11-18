@@ -3,9 +3,43 @@ TCDEMO.MENU = {
 };
 
 function MenuController () {
-    var menu = $('#menu');    
+    var menu = $('#menu');   
+    var audioCtrl = new AudioController(); 
     var isOpen = false;    
     var slider;
+
+    var menuItems = [
+        {
+            index: 0,
+            description: 'camera',
+            audioSrc: 'assets/audios/menu/menu_picture.mp3',
+            length: 100
+        },
+        {
+            index: 1,
+            description: 'landmarks',
+            audioSrc: 'assets/audios/menu/menu_landmarks.mp3',
+            length: 1000
+        },
+        {
+            index: 2,
+            description: 'exitNavigation',
+            audioSrc: 'assets/audios/menu/menu_exitNav.mp3',
+            length: 1000
+        },
+        {
+            index: 3,
+            description: 'restaurants',
+            audioSrc: 'assets/audios/menu/menu_restaurants.mp3',
+            length: 2000
+        },
+        {
+            index: 4,
+            description: 'stories',
+            audioSrc: 'assets/audios/menu/menu_stories.mp3',
+            length: 1000
+        }
+    ];
 
     function setUpMenu () {        
         slider = new tns({
@@ -21,6 +55,14 @@ function MenuController () {
         });
     };
 
+    function readOutMenuItem (index) {
+        console.log('play ' + menuItems[index].audioSrc);
+        audioCtrl.play(menuItems[index].audioSrc, false);
+        // play audio - will it trigger onboarding audiostopped event?
+        // place breakpoint on Onboarding.js ln 87
+        // might not trigger with menu testing - try out with onboarding flow
+    };
+
     function captureCenterItem (info, index) {
         info.slideItems[index].classList.add("center");
 
@@ -30,24 +72,28 @@ function MenuController () {
             type: TCDEMO.MENU.itemChangedEvent,
             index: menuIndex
         });
+
+        readOutMenuItem(menuIndex);
     }
 
-    function itemChanged (info, eventName) {
-        info.slideItems[info.indexCached + 1].classList.remove("center");
+    function onItemChanged (info, eventName) {
+        info.slideItems[info.indexCached].classList.remove("center");
 
-        captureCenterItem(info, info.index + 1);
+        captureCenterItem(info, info.index);
     };
 
-    function openMenu () {        
+    function openMenu () {
+        setUpMenu();
+
         menu.removeClass('hide');
         isOpen = true;
-        slider.rebuild();
+        //slider.rebuild();
 
         var sliderInfo = slider.getInfo();
-        captureCenterItem(sliderInfo, sliderInfo.index - 1);
+        captureCenterItem(sliderInfo, sliderInfo.index);
         
         // bind function to event
-        slider.events.on('transitionEnd', itemChanged);
+        slider.events.on('transitionEnd', onItemChanged);
     }
 
     function closeMenu () {
@@ -56,7 +102,7 @@ function MenuController () {
         slider.destroy();
 
         // remove function binding
-        slider.events.off('transitionEnd', itemChanged);
+        slider.events.off('transitionEnd', onItemChanged);
     };
 
     function toggleMenu() {
@@ -67,7 +113,7 @@ function MenuController () {
         }
     }
 
-    setUpMenu();
+    
 
     return {
         open: openMenu,
