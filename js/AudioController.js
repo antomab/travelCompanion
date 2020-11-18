@@ -55,10 +55,21 @@ function AudioController () {
         audioElement.stop();
     };
 
+    function toggleAudio () {
+        if (!fileSrc || fileSrc === '') return;
+        
+        if (audioElement.paused) {
+            audioElement.play();
+        } else {
+            pauseAudio();
+        }
+    }
+
     return {
         setAudioSource: setAudioSrc,
         play: playAudio,
         pause: pauseAudio,
-        stop: stopAudio
+        stop: stopAudio,
+        toggle: toggleAudio
     }
 };

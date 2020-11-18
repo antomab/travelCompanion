@@ -87,17 +87,14 @@ function Onboarding () {
     function startOnboarding() {
         eventsController.setupScenario(onboardingElemId);
         handleAudioStoppedEvent();
-        // currentStep = 1;
+        currentStep = 1;
         
-        // audioController.play(steps[currentStep - 1].audioSrc);
-
-        currentStep = 3;
-        nextStep();
+        audioController.play(steps[currentStep - 1].audioSrc);
     };
 
     function stopOnboarding () {
         stopHandlingAudioStoppedEvent();
-        eventsController.stopScenario;
+        eventsController.stopScenario();
     };
     
     function reminderCallback (flagHappened) {
@@ -106,14 +103,14 @@ function Onboarding () {
         }
     };
 
-    function step3OnTapCallback (refreshIntervalId, liveCard) {                        
+    function onTapCallback (refreshIntervalId, liveCard) {                        
         clearInterval(refreshIntervalId);
 
         // play live-card audio
         audioController.play(audiosOther.liveCard.audioSrc, false);
 
         // remove Tap handler
-        eventsController.removeHandler(TCDEMO.EVENTS.singleTap, step3OnTapCallback);
+        eventsController.removeHandler(TCDEMO.EVENTS.singleTap, onTapCallback);
 
         // allow audio to play out before hiding again
         setTimeout(() => step3FinalizeCallback(liveCard), audiosOther.liveCard.length + 3000);                            
@@ -129,15 +126,25 @@ function Onboarding () {
         nextStep();
     };
 
-    function step6OnPressCallback (refreshIntervalId) {
+    function onPressCallback (refreshIntervalId) {
         clearInterval(refreshIntervalId);
 
         // play surroundings audio
         audioController.play(audiosOther.surroundings.audioSrc, false);
 
         // allow audio to play out before moving on
-        setTimeout(() => nextStep(), audiosOther.surroundings.length + 2000);
+        setTimeout(() => {
+            // enable audio event again
+            handleAudioStoppedEvent();
+
+            nextStep();
+        } , audiosOther.surroundings.length + 2000);
     };
+
+    function onTwoFingerTapCallback () {
+        // pause/resume audio
+        audioController.toggle();
+    }
 
     function onDoubleTapCallback (refreshIntervalId) {
         clearInterval(refreshIntervalId);
@@ -146,8 +153,6 @@ function Onboarding () {
             // show menu 
             menuCtrl.open();      
             
-            // PAUSE HERE TO LET MENU ITEM BE READ OUT
-
             // move to step 5
             currentStep = 4;
         } else {
@@ -186,7 +191,7 @@ function Onboarding () {
                 setTimeout(function () {
                     // set up Tap event
                     eventsController.setupEvent(TCDEMO.EVENTS.singleTap);
-                    eventsController.setupHandler(TCDEMO.EVENTS.singleTap, () => step3OnTapCallback(step3RefreshIntervalId, liveCard));                
+                    eventsController.setupHandler(TCDEMO.EVENTS.singleTap, () => onTapCallback(step3RefreshIntervalId, liveCard));                
 
                     // show live card sample, with chime                
                     liveCard.removeClass('hide');
@@ -231,35 +236,46 @@ function Onboarding () {
                     // play instructions 
                     audioController.play(steps[currentStep - 1].audioSrc, false); 
                 } 
-            break;
+                break;
             case 6:  
-                    // temporarily pause handling of audioStopped event
-                    stopHandlingAudioStoppedEvent();
+                // temporarily pause handling of audioStopped event
+                stopHandlingAudioStoppedEvent();
 
-                    var wasPressed = false;
-                    var step6RefreshIntervalId;
+                var wasPressed = false;
+                var step6RefreshIntervalId;
 
-                    // play instructions
-                    audioController.play(steps[currentStep - 1].audioSrc);
+                // play instructions
+                audioController.play(steps[currentStep - 1].audioSrc);
 
-                    // allow instructions to start playing before continuing
-                    setTimeout(function () {
-                        // set up Tap event
-                        eventsController.setupEvent(TCDEMO.EVENTS.press);
-                        eventsController.setupHandler(TCDEMO.EVENTS.press, () => step6OnPressCallback(step6RefreshIntervalId));                
-                        
-                        // play a reminder to Tap if nothing happens after every 5s
-                        step6RefreshIntervalId = setInterval(() => reminderCallback(wasPressed), 10000);
+                // allow instructions to start playing before continuing
+                setTimeout(function () {
+                    // set up Tap event
+                    eventsController.setupEvent(TCDEMO.EVENTS.press);
+                    eventsController.setupHandler(TCDEMO.EVENTS.press, () => onPressCallback(step6RefreshIntervalId));                
+                    
+                    // play a reminder to Tap if nothing happens after every 5s
+                    step6RefreshIntervalId = setInterval(() => reminderCallback(wasPressed), 10000);
 
-                    }, steps[currentStep - 1].length + 3000);
+                }, steps[currentStep - 1].length + 3000);
 
-            case 7:  
-                    /*
-                    play audio
-                    play secondary audio on loop
-                    once paused trigger end of onboarding
-                */
-            stopOnboarding();
+                break;
+            case 7: 
+                // play instructions
+                audioController.play(steps[currentStep - 1].audioSrc);
+
+                // allow instructions to start playing before continuing
+                setTimeout(function () {
+                    // set up Tap event
+                    eventsController.setupEvent(TCDEMO.EVENTS.twoFingerTap);
+                    eventsController.setupHandler(TCDEMO.EVENTS.twoFingerTap, onTwoFingerTapCallback);                
+                   
+                    // play audio to test pausing and resuming
+                    audioController.play(audiosOther.guide.audioSrc);
+                    
+                    // end of audio will trigger nextStep, which will go to default and end onboarding
+
+                }, steps[currentStep - 1].length + 3000);            
+              
                 break;  
             default:
                 stopOnboarding();

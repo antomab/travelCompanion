@@ -80,7 +80,7 @@ function EventsController () {
                 gestures.add([doubleTap, singleTap]);
                 break;
             case TCDEMO.EVENTS.twoFingerTap:
-                isPauseAudioEnabled = true;
+                enableAudioPause();
                 gestures.add(new Hammer.Tap({ 
                     event: TCDEMO.EVENTS.twoFingerTap, 
                     taps: 1,
@@ -91,7 +91,7 @@ function EventsController () {
                 gestures.add(new Hammer.Press({ time: 500 }));
                 break;
             case TCDEMO.EVENTS.pinch:
-                isPauseAudioEnabled = false;
+                disableAudioPause();
                 gestures.add(new Hammer.Pinch({ 
                     event: TCDEMO.EVENTS.pinch,
                     enable: canEnableZoom }));
