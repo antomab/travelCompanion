@@ -15,25 +15,26 @@ body {
   transform: translate(-50%, -50%);
 }
 
+#onboarding,
+#scenario1 {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 
 /* MENU  */
 
 #menu {
   color: #ffffff;
-  width: 80%;
-  /* overflow: hidden; */
-}
-#menu .tns-ovh {
-  /* height: 275px !important; */
-}
-#menu .tns-item {
-  /* height: 70px; */
+  width: 65%;
 }
 #menu #tns1-iw {
-  margin-top: 68px;
+  margin-top: 115px;
 }
 #menu .menu-item {
-  height: 70px;
+  height: 100px;
+  margin: 15px 0;
 }
 #menu .menu-item img {
   height: 100%;
