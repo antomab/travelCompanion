@@ -55,12 +55,12 @@ function MenuController () {
         });
     };
 
+    function isMenuOpen () {
+        return isOpen;
+    }
+
     function readOutMenuItem (index) {
-        console.log('play ' + menuItems[index].audioSrc);
         audioCtrl.play(menuItems[index].audioSrc, false);
-        // play audio - will it trigger onboarding audiostopped event?
-        // place breakpoint on Onboarding.js ln 87
-        // might not trigger with menu testing - try out with onboarding flow
     };
 
     function captureCenterItem (info, index) {
@@ -99,10 +99,11 @@ function MenuController () {
     function closeMenu () {
         menu.addClass('hide');
         isOpen = false;
-        slider.destroy();
-
+        
         // remove function binding
         slider.events.off('transitionEnd', onItemChanged);
+        
+        slider.destroy();
     };
 
     function toggleMenu() {
@@ -118,6 +119,7 @@ function MenuController () {
     return {
         open: openMenu,
         close: closeMenu,
-        toggle: toggleMenu
+        toggle: toggleMenu,
+        isOpen: isMenuOpen
     }
 }; 

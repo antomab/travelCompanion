@@ -37,27 +37,20 @@ function Onboarding () {
         },
         {
             step: '5',
-            description: 'scroll up down menu',
-            audioSrc: 'assets/audios/onboarding/scrollmenu.mp3',
+            description: 'scroll up down menu and dismiss',
+            audioSrc: 'assets/audios/onboarding/swipeanddismissmenu.mp3',
             element: 'menu',
             length: 2000
         },
         {
             step: '6',
-            description: 'double tap again to dismiss it',
-            audioSrc: 'assets/audios/onboarding/dismissmenu.mp3',
-            element: 'menu',
-            length: 1000
-        },
-        {
-            step: '7',
             description: 'press and hold to get description',
             audioSrc: 'assets/audios/onboarding/presshold.mp3',
             element: '',
             length: 3000
         },
         {
-            step: '8',
+            step: '7',
             description: 'you can pause audio',
             audioSrc: 'assets/audios/onboarding/pauseaudio.mp3',
             element: '',
@@ -136,16 +129,28 @@ function Onboarding () {
         nextStep();
     };
 
-    function step4OnDoubleTapCallback (refreshIntervalId) {
+    function onDoubleTapCallback (refreshIntervalId) {
         clearInterval(refreshIntervalId);
 
-        // show menu 
-        menuCtrl.open();
+        if (!menuCtrl.isOpen()) {
+            // show menu 
+            menuCtrl.open();      
+            
+            // PAUSE HERE TO LET MENU ITEM BE READ OUT
 
-        // enable audio event again
-        handleAudioStoppedEvent();
+            // move to step 5
+            currentStep = 4;
+        } else {
+            // close menu
+            menuCtrl.close();
 
-        // move to next step
+            // enable audio event again
+            handleAudioStoppedEvent();
+
+            // move to step 6
+            currentStep = 5;
+        }
+
         nextStep();
     };
 
@@ -161,7 +166,7 @@ function Onboarding () {
                 stopHandlingAudioStoppedEvent();
 
                 var wasTapped = false;
-                var refreshIntervalId;
+                var step3RefreshIntervalId;
                 var liveCard = $onboardingElem.find('.' + steps[currentStep - 1].element);
 
                 // play instructions
@@ -171,14 +176,14 @@ function Onboarding () {
                 setTimeout(function () {
                     // set up Tap event
                     eventsController.setupEvent(TCDEMO.EVENTS.singleTap);
-                    eventsController.setupHandler(TCDEMO.EVENTS.singleTap, () => step3OnTapCallback(refreshIntervalId, liveCard));                
+                    eventsController.setupHandler(TCDEMO.EVENTS.singleTap, () => step3OnTapCallback(step3RefreshIntervalId, liveCard));                
 
                     // show live card sample, with chime                
                     liveCard.removeClass('hide');
                     audioController.play(audiosOther.chime.audioSrc, false);
                     
                     // play a reminder to Tap if nothing happens after every 5s
-                    refreshIntervalId = setInterval(() => reminderCallback(wasTapped), 10000);
+                    step3RefreshIntervalId = setInterval(() => reminderCallback(wasTapped), 10000);
                 
                 }, steps[currentStep - 1].length + 3000);
 
@@ -188,7 +193,7 @@ function Onboarding () {
                 stopHandlingAudioStoppedEvent();
 
                 var wasDoubleTapped = false;
-                var refreshIntervalId;
+                var step4RefreshIntervalId;
 
                 // play instructions
                 audioController.play(steps[currentStep - 1].audioSrc, false);
@@ -197,42 +202,40 @@ function Onboarding () {
                 setTimeout(function () {
                     // set up double-tap event to bring up menu
                     eventsController.setupEvent(TCDEMO.EVENTS.doubleTap);
-                    eventsController.setupHandler(TCDEMO.EVENTS.doubleTap, () => step4OnDoubleTapCallback(refreshIntervalId));
+                    eventsController.setupHandler(TCDEMO.EVENTS.doubleTap, function () { 
+                        onDoubleTapCallback(step4RefreshIntervalId)
+                    });
                     
-                    // play a reminder to Double Tap if nothing happens after every 5s
-                    refreshIntervalId = setInterval(() => reminderCallback(wasDoubleTapped), 10000);
+                    if (step4RefreshIntervalId === undefined) {
+                        // play a reminder to Double Tap if nothing happens after every 5s
+                        step4RefreshIntervalId = setInterval(function () { 
+                            reminderCallback(wasDoubleTapped) 
+                        }, 10000);
+                    }
 
-                }, steps[currentStep - 1].length + 2000)
+                }, steps[currentStep - 1].length + 2000);
                 
                 break;
             case 5:  
-            /*
-            menu should be visible
-            play audio
-            straight to step 6
-            */
+                if (menuCtrl.isOpen()) {
+                    // play instructions 
+                    audioController.play(steps[currentStep - 1].audioSrc, false); 
+                } 
             break;
             case 6:  
-            /*
-            play audio
-            go to step 7 when menu disappears
-            */
-                break;
+                /*
+                    play audio 
+                    if after 5s press&hold wasn't triggered, prompt again
+                    after press&hold finishes go to step 8
+                    */
             case 7:  
-            /*
-            play audio 
-            if after 5s press&hold wasn't triggered, prompt again
-            after press&hold finishes go to step 8
-            */
+                    /*
+                    play audio
+                    play secondary audio on loop
+                    once paused trigger end of onboarding
+                */
+            stopOnboarding();
                 break;  
-            case 8:  
-            /*
-                play audio
-                play secondary audio on loop
-                once paused trigger end of onboarding
-            */
-                stopOnboarding();
-                break;
             default:
                 stopOnboarding();
                 break;
