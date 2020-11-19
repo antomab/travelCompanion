@@ -23,12 +23,15 @@ body {
     top: 50% !important;
   }
 }
-.background-img img {
-  width: 100%;
+/* desktop */
+@media (min-width:1025px) {
+  .background-img img {
+    /* width: 100%; */
+  }
 }
 @media (orientation: portrait) {
   .background-img img {
-    width: 100%;
+     width: 100%;
   }
   .center-screen {
     top: 20% !important;
@@ -39,14 +42,6 @@ body {
   position: absolute;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-}
-.parallax-wrapper {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  z-index: -1;
 }
 
 /* #onboarding, */
@@ -92,4 +87,38 @@ body {
   border: none;
   height: 10%;
   width: 30%;
+}
+
+/* parallax */
+
+.scene,
+.layer {
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.scene {
+    min-height: 460px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+/* 
+.layer img {
+    width: 100%;
+} */
+
+.layer img {
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
