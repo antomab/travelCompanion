@@ -1,6 +1,8 @@
 function Onboarding () {
     var onboardingElemId = 'onboarding';
+    var onboardingElem = document.getElementById(onboardingElemId);
     var $onboardingElem = $('#' + onboardingElemId);
+    var parallaxOnboarding;
     var audioController = new AudioController();
     var eventsController = new EventsController();    
     var menuCtrl = new MenuController();
@@ -83,6 +85,12 @@ function Onboarding () {
         eventsController.setupScenario(onboardingElemId);
         currentStep = 1;
         
+        // set up parallax
+        parallaxOnboarding = new Parallax(onboardingElem, {
+            relativeInput: true,
+            pointerEvents: true
+        });
+
         playCurrentStepAudio();
 
         // move to the next step when audio finishes
@@ -92,6 +100,9 @@ function Onboarding () {
     function stopOnboarding () {
         audioController.play(audiosOther.onboardingEnd.audioSrc);
         setTimeout(eventsController.stopScenario, audiosOther.onboardingEnd.length);
+
+        parallaxOnboarding.disable();
+        parallaxOnboarding.destroy();
     };
 
     function reminderCallback (flagHappened) {
