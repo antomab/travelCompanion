@@ -11,12 +11,32 @@ body {
   display: none;
   visibility: hidden;
 }
+
+@media (orientation: landscape) {
+  .background-img img {
+    /* horizontal */
+    height: 100%;
+    display: block;
+    margin: auto;
+  }
+  .center-screen {
+    top: 50% !important;
+  }
+}
 .background-img img {
   width: 100%;
 }
+@media (orientation: portrait) {
+  .background-img img {
+    width: 100%;
+  }
+  .center-screen {
+    top: 20% !important;
+  }
+}
+
 .center-screen {
   position: absolute;
-  top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
 }
