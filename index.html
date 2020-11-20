@@ -30,12 +30,12 @@
     </div>
 
 
-    <div id="scenario1" class="hide">
-        <div id="main" class="container background-img">
+    <div id="scenario1" class="scene hide"  data-limit-x="160" data-limit-y="160">
+        <div id="sc1_main" class="container background-img layer" data-depth="0.6">
           <img src="assets/Mock_Attractions_Info.png"/>.
         </div>
         <div id="zoomin" class="container hide background-img">
-          <img src="assets/Mock_Attractions_Info_zoomIn.png"/>.
+          <img src="assets/Mock_Attractions_Info_zoomIn.png"/>
         </div>        
     </div>
 
@@ -49,6 +49,19 @@
       </div>
     </div>
 
+    <div id="badgeMenu" class="badge-menu hide">
+       <div class="badge-menu-tiny-slider">
+        <div class="badge-menu-item badge-158" data-index="0">
+          <img src="assets/badgeMenu/158.png">
+          <img class="to158 hide" src="assets/badgeMenu/To158.png">
+        </div>
+        <div class="badge-menu-item badge-6A" data-index="1">
+          <img src="assets/badgeMenu/6A.png">        
+          <img class="to6A hide" src="assets/badgeMenu/To6A.png">
+        </div>
+      </div>
+    </div>
+
 
         <script src="js/third-party/jquery.min.js"></script>
         <script src="js/third-party/hammer.min.js"></script>
@@ -59,8 +72,10 @@
         
 		    <script src="js/EventsController.js" crossOrigin="anonymous"></script>
 		    <script src="js/AudioController.js" crossOrigin="anonymous"></script>
-		    <script src="js/MenuController.js" crossOrigin="anonymous"></script>
-		    <script src="js/Onboarding.js" crossOrigin="anonymous"></script>
+        <script src="js/MenuController.js" crossOrigin="anonymous"></script>
+        <script src="js/BadgeMenuController.js" crossorigin="anonymous"></script>
+        <script src="js/Onboarding.js" crossOrigin="anonymous"></script>
+        <script src="js/Scenario1.js" crossorigin="anonymous"></script>
 		    <script src="js/demo.js" crossOrigin="anonymous"></script>
 	</body>
 </html>

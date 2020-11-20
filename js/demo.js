@@ -39,6 +39,10 @@ function Demo () {
     // $(document).on(TCDEMO.MENU.itemChangedEvent, (data) => {
     //     console.log('item changed! ' + data.index);
     // });
+
+    // show badge menu
+    var badgeMenuCtrl = new BadgeMenuController();
+    badgeMenuCtrl.show();
 }
 
 Demo();

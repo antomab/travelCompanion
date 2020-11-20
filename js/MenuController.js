@@ -87,7 +87,6 @@ function MenuController () {
 
         menu.removeClass('hide');
         isOpen = true;
-        //slider.rebuild();
 
         var sliderInfo = slider.getInfo();
         captureCenterItem(sliderInfo, sliderInfo.index);
@@ -102,7 +101,7 @@ function MenuController () {
         
         // remove function binding
         slider.events.off('transitionEnd', onItemChanged);
-        
+
         slider.destroy();
     };
 

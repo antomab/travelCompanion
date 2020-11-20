@@ -87,6 +87,61 @@ body {
   }
 }
 
+/* BADGE MENU */
+#badgeMenu {
+  background-image: url('../assets/badgeMenu/background_all.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  width: 10%;
+  height: 30%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin: 5% 15% 0 0;
+}
+#badgeMenu .badge-menu-tiny-slider {
+  width: 100%;
+  height: 100%;
+}
+#badgeMenu .badge-menu-item {
+  height: 49%;
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  -webkit-flex-item-align: center;
+  align-items: center;
+
+  justify-content: center;
+  -webkit-justify-content: center;
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -ms-flex-pack: center;
+}
+#badgeMenu .badge-menu-item.badge-6A {
+  height: 44%;
+}
+#badgeMenu .badge-menu-item.badge-158,
+#badgeMenu .badge-menu-item.badge-6A {
+  background-image: none;
+}
+#badgeMenu .badge-menu-item.badge-158.active,
+#badgeMenu .badge-menu-item.badge-6A.active {
+  background-image: url('../assets/badgeMenu/active.png');
+  background-repeat: no-repeat;
+  background-size: 72%;
+  background-position: center;
+}
+
+#to158,
+#to6A {
+  display:none;
+}
 
 /* ONBOARDING */
 #onboarding .start {
@@ -100,7 +155,7 @@ body {
   width: 30%;
 }
 
-/* parallax */
+/* PARALLAX */
 
 .scene,
 .layer {
