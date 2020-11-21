@@ -103,6 +103,8 @@ function Onboarding () {
 
         parallaxOnboarding.disable();
         parallaxOnboarding.destroy();
+
+        eventsController.stopScenario();
     };
 
     function reminderCallback (flagHappened) {

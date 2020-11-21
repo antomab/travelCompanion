@@ -19,25 +19,26 @@
 	<body>
     <audio id="audio" class="hide" crossOrigin="anonymous"></audio>
     
-    <div id="onboarding" class="scene" data-limit-x="160" data-limit-y="160">
+    <div id="onboarding" class="scene hide" data-limit-x="160" data-limit-y="160">
       <div id="o_main" class="background-img layer" data-depth="0.6">
         <img src="assets/background-onboarding.png" />
-      </div>
-      <button class="start center-screen">Start Onboarding</button>
+      </div>      
       <div class="live-card center-screen hide" data-depth="0.4">
         <img src="assets/Badge_Text_Circle.png" />
       </div>
     </div>
+    <button id="onboardingStart" class="start center-screen hide">Start Onboarding</button>
 
 
     <div id="scenario1" class="scene hide"  data-limit-x="160" data-limit-y="160">
         <div id="sc1_main" class="container background-img layer" data-depth="0.6">
-          <img src="assets/Mock_Attractions_Info.png"/>.
+          <img src="assets/BusStop.png"/>.
         </div>
-        <div id="zoomin" class="container hide background-img">
+        <!-- <div id="zoomin" class="container hide background-img">
           <img src="assets/Mock_Attractions_Info_zoomIn.png"/>
-        </div>        
+        </div>         -->
     </div>
+    <button id="scenario1Start" class="start center-screen">Start Scenario #1</button>
 
     <div id="menu" class="menu center-screen hide">
       <div class="menu-tiny-slider">
@@ -52,18 +53,19 @@
     <div id="badgeMenu" class="badge-menu hide">
        <div class="badge-menu-tiny-slider">
         <div class="badge-menu-item badge-158" data-index="0">
-          <img src="assets/badgeMenu/158.png">
-          <img class="to158 hide" src="assets/badgeMenu/To158.png">
+          <img class="to158" src="assets/badgeMenu/To158.png">
+          <img class="number" src="assets/badgeMenu/158.png">
         </div>
-        <div class="badge-menu-item badge-6A" data-index="1">
-          <img src="assets/badgeMenu/6A.png">        
-          <img class="to6A hide" src="assets/badgeMenu/To6A.png">
+        <div class="badge-menu-item badge-6A" data-index="1">       
+          <img class="to6A" src="assets/badgeMenu/To6A.png">
+          <img class="number" src="assets/badgeMenu/6A.png"> 
         </div>
       </div>
     </div>
 
 
         <script src="js/third-party/jquery.min.js"></script>
+        <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
         <script src="js/third-party/hammer.min.js"></script>
         <script src="js/third-party/jquery.hammer.js"></script>        
         <script src="js/third-party/tiny-slider.js"></script>

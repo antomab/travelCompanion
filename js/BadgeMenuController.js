@@ -3,9 +3,9 @@ TCDEMO.BADGEMENU = {
 };
 
 function BadgeMenuController () {
-    var badgeMenu = $('#badgeMenu');
+    var badgeMenuElemId = 'badgeMenu';
+    var $badgeMenu = $('#' + badgeMenuElemId);
     var audioCtrl = new AudioController();
-    var slider;
 
     var menuItems = [
         {
@@ -13,33 +13,24 @@ function BadgeMenuController () {
             description: 'bus 158',
             audioSrc: '',
             length: 0,
-            itemSelector: 'badge-158',
-            toSelector: '.to158'
+            itemSelector: '.badge-158',
+            toSelector: '.to158',
+            slideOut: 'slide-out-158',
+            slideIn: 'slide-in'
         },
         {
             index: 0,
-            description: 'bus 15',
+            description: 'bus 6A',
             audioSrc: '',
             length: 0,
-            itemSelector: 'badge-6A',
-            toSelector: '.to6A'
+            itemSelector: '.badge-6A',
+            toSelector: '.to6A',
+            slideOut: 'slide-out-6A',
+            slideIn: 'slide-in'
         }
     ];
 
-    function setUpBadgeMenu () {
-        slider = new tns({
-            container: '.badge-menu-tiny-slider',
-            items: 2,
-            axis: 'vertical',
-            gutter: 5,
-            controls: false,
-            startIndex: 0,
-            nav: false,
-            edgePadding: 5,
-            loop: false
-        });
-    };
-
+    // Check if any item is currently active
     function isMenuActive () {        
         var isActive = false;
         for (var i=0; i<menuItems.length;i++) {
@@ -55,76 +46,65 @@ function BadgeMenuController () {
         audioCtrl.play(menuItems[index].audioSrc, false);
     };
 
+    function getActiveItem () {        
+        // get active item
+        if ($(menuItems[0].itemSelector).hasClass('active')) {
+            return menuItems[0];
+        } else if ($(menuItems[1].itemSelector).hasClass('active')) {
+            return menuItems[1];
+        }
+
+        // no item is active
+        return;
+    };
+
     function onItemNotActive(index) {
-        var $item = $(menuItems[index].itemSelector);
+        var itemInfo = menuItems[index];
+        var $item = $(itemInfo.itemSelector);
 
         // it wasn't active, do nothing
         if (!$item.hasClass('active')) return;
 
+        // de-activate item
         $item.removeClass('active');
 
-        // set effect, options, duration (ms)
-        $item.toggle('slide', { direction: 'left' }, 300);
+        // slide in destination info ("To")        
+        var $toInfo = $item.find(itemInfo.toSelector);
+        $toInfo.removeClass(itemInfo.slideOut);
+        $toInfo.addClass(itemInfo.slideIn);
     };
 
     function onItemActive(index) {
-        $(menuItems[index].itemSelector).addClass('active');
+        var itemInfo = menuItems[index];
+        var $item = $(itemInfo.itemSelector);
+        
+        // it's already active, do nothing
+        if ($item.hasClass('active')) return;
 
-        // set effect, options, duration (ms)
-        $(menuItems[index].toSelector).toggle('slide', { direction: 'left' }, 300);
+        // activate item
+        $item.addClass('active');     
+
+        // slide out destination info ("To")
+        var $toInfo = $item.find(itemInfo.toSelector);
+        $toInfo.removeClass(itemInfo.slideIn);
+        $toInfo.addClass(itemInfo.slideOut);
     }
-
-    function onItemChanged (info, eventName) {
-        var activeIndex = $(info.slideItems[index]).data("index");
-        
-        // deactivate other items
-        for (var i=0; i<menuItems.length;i++) {
-            if (activeIndex !== i) {
-                onItemNotActive(i);
-            }
-        }
-
-        readOutMenuItem(activeIndex);
-        onItemActive(activeIndex);        
-    };
-
-    // function openBadgeMenu () {
-    //     setUpBadgeMenu();
-
-    //     badgeMenu.removeClass('hide');
-    //     isActive = true;
-        
-    //     slider.events.on('transitionEnd', onItemChanged);
-    // };
-
-    // function closeBadgeMenu () {
-    //     badgeMenu.addClass('hide');
-    //     isActive = false;
-
-    //     slider.events.off('transitionEnd', onItemChanged);
-    //     slider.destroy();
-    // };
-
-    // swipe up/down events
-    
-    function onSelectFirst () {
+   
+    function activateFirstItem () {
         onItemNotActive(1);
         onItemActive(0);
         readOutMenuItem(0);
     };
-    function onSelectSecond () {
+    function activateSecondItem () {
         onItemNotActive(0);
         onItemActive(1);
         readOutMenuItem(1);
     };
-
-    // activated on single tap
-    // 1st item automatically activated
+    
     function activateBadgeMenu () {
-        onSelectFirst();
+        activateFirstItem();
     };
 
-    // deactivate on single tap
     function deactivateBadgeMenu () {
         // deactivate all items
         for (var i=0; i<menuItems.length;i++) {
@@ -132,38 +112,23 @@ function BadgeMenuController () {
         }
     };
 
-    // hookElement: elem to hook events to
-    function hookEvents () {
-        // hookElement = body
-
-        // singleTap: !isActive, activate badge
-
-        // singleTap: isActive, deactivate badge
-
-        // press: select item
-
-        // swipe up: choose 1st item
-
-        // swipe down: choose 2nd item
-    };
-
-    function destroyEvents () {
-
-    };
-
     function showBadgeMenu () {
-        badgeMenu.removeClass('hide');
-        hookEvents();
+        $badgeMenu.removeClass('hide');
     };
 
     function hideBadgeMenu () {
-        badgeMenu.addClass('hide');
-        destroyEvents();
+        $badgeMenu.addClass('hide');
+        deactivateBadgeMenu();
     };
 
     return {
         show: showBadgeMenu,
         hide: hideBadgeMenu,  
-        isActive: isMenuActive
+        activate: activateBadgeMenu,
+        deactivate: deactivateBadgeMenu,
+        isActive: isMenuActive,
+        activateFirst: activateFirstItem,
+        activateSecond: activateSecondItem,
+        getActive: getActiveItem
     }
 };

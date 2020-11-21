@@ -73,7 +73,6 @@ body {
   -moz-transform: scale(1.25);
   transform: scale(1.25);
   transform-origin: left;
-  /* margin: 10px 0; */
 }
 
 /* smartphones */
@@ -123,28 +122,87 @@ body {
   -moz-box-pack: center;
   -ms-flex-pack: center;
 }
-#badgeMenu .badge-menu-item.badge-6A {
+#badgeMenu .badge-menu-item.badge-6A,
+#badgeMenu .badge-menu-item.badge-158 {
   height: 44%;
+  position: relative;
 }
+
+#badgeMenu .badge-menu-item.badge-6A .to6A,
+#badgeMenu .badge-menu-item.badge-158 .to158 {
+  position: absolute;
+  right: 161%;
+  width: 1px;
+  height: 1px;
+  transform: scaleX(1) scaleY(1);
+  transform-origin: right;
+}
+#badgeMenu .badge-menu-item.badge-158 .to158 {
+  top: 42px;
+}
+#badgeMenu .badge-menu-item.badge-6A .to6A {
+  top: 35px;
+}
+
+.slide-in {
+    animation: slide-in 0.5s forwards;
+    -webkit-animation: slide-in 0.5s forwards;
+}
+.slide-out-158 {
+  animation: slide-out-158 0.5s forwards;
+  -webkit-animation: slide-out-158 0.5s forwards;
+}
+.slide-out-6A {
+  animation: slide-out-6A 0.5s forwards;
+  -webkit-animation: slide-out-6A 0.5s forwards;
+}
+    
+/* 158 - W: 270px  H: 70px   */
+@keyframes slide-out-158 {
+  100% { transform: scaleX(270) scaleY(70); }
+}
+@-webkit-keyframes slide-out-158 {   
+  100% { -webkit-transform: scaleX(270) scaleY(70); }
+}
+
+/* 6A - W: 230px  H: 65px   */
+@keyframes slide-out-6A {
+    100% { transform: scaleX(230) scaleY(65); }
+}
+@-webkit-keyframes slide-out-6A {   
+    100% { -webkit-transform: scaleX(230) scaleY(65); }
+}
+    
+@keyframes slide-in {
+    100% { transform: scaleX(1) scaleY(1); }
+}
+
+@-webkit-keyframes slide-in {
+    100% {-webkit-transform: scaleX(1) scaleY(1); }
+}
+
 #badgeMenu .badge-menu-item.badge-158,
 #badgeMenu .badge-menu-item.badge-6A {
   background-image: none;
+}
+#badgeMenu .badge-menu-item.badge-158 .number,
+#badgeMenu .badge-menu-item.badge-6A .number {
+  margin-top: 7px;
 }
 #badgeMenu .badge-menu-item.badge-158.active,
 #badgeMenu .badge-menu-item.badge-6A.active {
   background-image: url('../assets/badgeMenu/active.png');
   background-repeat: no-repeat;
-  background-size: 72%;
-  background-position: center;
+  background-size: 70%;
+  background-position: center 7px;
 }
 
-#to158,
-#to6A {
-  display:none;
-}
 
-/* ONBOARDING */
-#onboarding .start {
+/* 
+ONBOARDING
+SCENARIO 1
+ */
+.start {
   z-index: 900;
   font-size: 24px;
   text-transform: uppercase;

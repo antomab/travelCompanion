@@ -2,6 +2,7 @@ function Demo () {
     var eventsCtrl = new EventsController();
     var menuCtrl = new MenuController();
     var onboardingCtrl = new Onboarding();
+    var scenario1Ctrl = new Scenario1();
 
     function setupEventsScene1 () {
                
@@ -30,10 +31,16 @@ function Demo () {
     
     //setupEventsScene1();
    
-    var onboardingBtn = $('#onboarding .start');
+    var onboardingBtn = $('#onboardingStart');
     onboardingBtn.on('click', function () {
         onboardingBtn.addClass('hide');
         onboardingCtrl.start();        
+    });
+
+    var scenario1Btn = $('#scenario1Start');
+    scenario1Btn.on('click', function () {
+        scenario1Btn.addClass('hide');
+        scenario1Ctrl.start();
     });
 
     // $(document).on(TCDEMO.MENU.itemChangedEvent, (data) => {
@@ -41,8 +48,8 @@ function Demo () {
     // });
 
     // show badge menu
-    var badgeMenuCtrl = new BadgeMenuController();
-    badgeMenuCtrl.show();
+    // var badgeMenuCtrl = new BadgeMenuController();
+    // badgeMenuCtrl.show();
 }
 
 Demo();

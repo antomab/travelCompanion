@@ -8,7 +8,10 @@ TCDEMO.EVENTS = {
     pinch: 'pinch',
     pinchEnd: 'pinchend',
     pinchOut: 'pinchout',
-    pinchIn: 'pinchin'
+    pinchIn: 'pinchin',
+    swipe: 'pan',
+    swipeDown: 'pandown',
+    swipeUp: 'panup'
 };
 
 function EventsController () {    
@@ -55,11 +58,12 @@ function EventsController () {
         var twoFingerTap = new Hammer.Tap({ event: TCDEMO.EVENTS.twoFingerTap, taps: 1, pointers: 2, enable: canEnablePauseAudio });        
         var zoom = new Hammer.Pinch({ event: TCDEMO.EVENTS.pinch, enable: canEnableZoom });
         var hold = new Hammer.Press({ time: 500 });
+        var swipe = new Hammer.Pan({ direction: Hammer.DIRECTION_VERTICAL });
         
         doubleTap.recognizeWith(singleTap);
-        singleTap.requireFailure(doubleTap);        
+        singleTap.requireFailure(doubleTap);                
 
-        gestures.add([zoom, hold, twoFingerTap, doubleTap, singleTap]);
+        gestures.add([zoom, hold, swipe, twoFingerTap, doubleTap, singleTap]);
 
         gestures.get(TCDEMO.EVENTS.doubleTap).dropRequireFailure(TCDEMO.EVENTS.singleTap)
     };
@@ -99,6 +103,9 @@ function EventsController () {
                 gestures.add(new Hammer.Pinch({ 
                     event: TCDEMO.EVENTS.pinch,
                     enable: canEnableZoom }));
+                break;
+            case TCDEMO.EVENTS.swipe:
+                gestures.add(new Hammer.Pan({ direction: Hammer.DIRECTION_VERTICAL }));
                 break;
         }
     };
