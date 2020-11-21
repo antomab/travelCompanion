@@ -70,7 +70,15 @@ function Scenario1 () {
             var activeItem = badgeMenuCtrl.getActive();
             audioCtrl.play(activeItem.audio.onSelected.audioSrc, false);
         } else {
+            // pause handler for single tap
+            eventsCtrl.removeHandler(TCDEMO.EVENTS.singleTap, onSingleTap);  
+             
             audioCtrl.play(scenarioInfo.surroundings.audioSrc, false);
+
+            // resume listening for single tap when audio stops
+            setInterval(() => {
+                eventsCtrl.setupHandler(TCDEMO.EVENTS.singleTap, onSingleTap);   
+            }, scenarioInfo.surroundings.length);
         }
     };
 
