@@ -73,6 +73,8 @@ function Scenario1 () {
         if (badgeMenuCtrl.isActive()) {
             var activeItem = badgeMenuCtrl.getActive();
             audioCtrl.play(activeItem.audio.onSelected.audioSrc, false);
+
+            setTimeout(endScenario, activeItem.audio.onSelected.length + 2000);
         } else {
             // pause handler for single tap
             eventsCtrl.removeHandler(TCDEMO.EVENTS.singleTap, onSingleTap);  
@@ -126,7 +128,7 @@ function Scenario1 () {
         badgeMenuCtrl.hide();
 
         audioCtrl.stop();
-        
+
         destroyEventHandlers();
         eventsCtrl.stopScenario();
 
