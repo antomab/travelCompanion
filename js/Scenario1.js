@@ -1,12 +1,6 @@
 /*
 Waiting at the bus stop. 
- 
- * announce "you have arrived at bus stop"
- * call out all available buses
- * call out buses when swiping (with direction)
- * call out when bus was selected
- * call out when badge menu closed 
-
+Select which bus was taken
 */
 
 function Scenario1 () {
@@ -19,8 +13,12 @@ function Scenario1 () {
     var scenarioInfo = {
         selectorId: 'scenario1',
         surroundings: {
-            audioSrc: '',
-            length: 0
+            audioSrc: 'assets/audios/scenario1/surroundings.mp3',
+            length: 4000
+        },
+        onArrival: {
+            audioSrc: 'assets/audios/scenario1/onArrival.mp3',
+            length: 7000
         }
     };
     
@@ -37,13 +35,23 @@ function Scenario1 () {
     // Show menu on double tap 
     function onDoubleTap () {
         if (!menuCtrl.isOpen()) {
-            // show menu 
+            // deactivate all other events, but double tap
+            destroyEventHandlers();       
+            eventsCtrl.setupHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);   
+
             menuCtrl.open();                      
         } else {
-            // close menu
             menuCtrl.close();
+
+            // reactivate events for this scenario
+            setupEventHandlers();
         }
     };
+
+    // Pause audio
+    function onTwoFingerTap () {
+        audioCtrl.toggle();
+    }
 
     // Swipe down to select 2nd item        
     // Swipe up to select 1st item again
@@ -60,9 +68,9 @@ function Scenario1 () {
     function onPress () {
         if (badgeMenuCtrl.isActive()) {
             var activeItem = badgeMenuCtrl.getActive();
-            console.log('you selected: ', activeItem);
+            audioCtrl.play(activeItem.audio.onSelected.audioSrc, false);
         } else {
-            audioCtrl.play(scenarioInfo.surroundings.audioSrc);
+            audioCtrl.play(scenarioInfo.surroundings.audioSrc, false);
         }
     };
 
@@ -70,7 +78,8 @@ function Scenario1 () {
         eventsCtrl.setupHandler(TCDEMO.EVENTS.singleTap, onSingleTap);        
         eventsCtrl.setupHandler(TCDEMO.EVENTS.swipe, (ev) => onSwipe(ev));                
         eventsCtrl.setupHandler(TCDEMO.EVENTS.press, onPress);                
-        eventsCtrl.setupHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);        
+        eventsCtrl.setupHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);    
+        eventsCtrl.setupHandler(TCDEMO.EVENTS.twoFingerTap, onTwoFingerTap);    
     };
 
     function destroyEventHandlers () {
@@ -78,6 +87,7 @@ function Scenario1 () {
         eventsCtrl.removeHandler(TCDEMO.EVENTS.swipe, (ev) => onSwipe(ev));                
         eventsCtrl.removeHandler(TCDEMO.EVENTS.press, onPress);                
         eventsCtrl.removeHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);
+        eventsCtrl.removeHandler(TCDEMO.EVENTS.twoFingerTap, onTwoFingerTap);
     };
 
     function startScenario () {
@@ -91,6 +101,7 @@ function Scenario1 () {
         badgeMenuCtrl.show();
 
         // audio cues
+        audioCtrl.play(scenarioInfo.onArrival.audioSrc, false);
     };
 
     function endScenario () {

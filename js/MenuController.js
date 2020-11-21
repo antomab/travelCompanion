@@ -111,9 +111,7 @@ function MenuController () {
         } else {
             openMenu();
         }
-    }
-
-    
+    }    
 
     return {
         open: openMenu,

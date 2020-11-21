@@ -3,30 +3,53 @@ TCDEMO.BADGEMENU = {
 };
 
 function BadgeMenuController () {
-    var badgeMenuElemId = 'badgeMenu';
-    var $badgeMenu = $('#' + badgeMenuElemId);
+    var $badgeMenu;
     var audioCtrl = new AudioController();
+
+    var badgeMenuInfo = {
+        selectorId: 'badgeMenu',
+        onMenuClosed: {
+            audioSrc: 'assets/audios/badgeMenu/menuClosed.mp3',
+            length: 1000
+        }
+    };
 
     var menuItems = [
         {
             index: 0,
-            description: 'bus 158',
-            audioSrc: '',
-            length: 0,
+            description: 'bus 158',            
             itemSelector: '.badge-158',
             toSelector: '.to158',
             slideOut: 'slide-out-158',
-            slideIn: 'slide-in'
+            slideIn: 'slide-in',
+            audio: {                
+                onActive: {
+                    audioSrc: 'assets/audios/badgeMenu/active158.mp3',
+                    length: 2000
+                },
+                onSelected: {
+                    audioSrc: 'assets/audios/badgeMenu/selected158.mp3',
+                    length: 3000
+                }
+            }
         },
         {
             index: 0,
             description: 'bus 6A',
-            audioSrc: '',
-            length: 0,
             itemSelector: '.badge-6A',
             toSelector: '.to6A',
             slideOut: 'slide-out-6A',
-            slideIn: 'slide-in'
+            slideIn: 'slide-in',
+            audio: {                
+                onActive: {
+                    audioSrc: 'assets/audios/badgeMenu/active6A.mp3',
+                    length: 1000,
+                },
+                onSelected: {
+                    audioSrc: 'assets/audios/badgeMenu/selected6A.mp3',
+                    length: 2000,
+                }
+            }
         }
     ];
 
@@ -43,7 +66,7 @@ function BadgeMenuController () {
     };
 
     function readOutMenuItem (index) {
-        audioCtrl.play(menuItems[index].audioSrc, false);
+        audioCtrl.play(menuItems[index].audio.onActive.audioSrc, false);
     };
 
     function getActiveItem () {        
@@ -110,15 +133,19 @@ function BadgeMenuController () {
         for (var i=0; i<menuItems.length;i++) {
             onItemNotActive(i);
         }
+
+        audioCtrl.play(badgeMenuInfo.onMenuClosed.audioSrc, false);
     };
 
     function showBadgeMenu () {
+        $badgeMenu =$ ('#' + badgeMenuInfo.selectorId)
         $badgeMenu.removeClass('hide');
     };
 
     function hideBadgeMenu () {
         $badgeMenu.addClass('hide');
         deactivateBadgeMenu();
+        $badgeMenu = null;
     };
 
     return {

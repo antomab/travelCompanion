@@ -54,18 +54,20 @@ function EventsController () {
 
     function setupAllRecognizers () { 
         var singleTap = new Hammer.Tap();
-        var doubleTap = new Hammer.Tap({ event: TCDEMO.EVENTS.doubleTap, taps: 2, interval: 800 });        
+        //var doubleTap = new Hammer.Tap({ event: TCDEMO.EVENTS.doubleTap, taps: 2, interval: 800 });        
         var twoFingerTap = new Hammer.Tap({ event: TCDEMO.EVENTS.twoFingerTap, taps: 1, pointers: 2, enable: canEnablePauseAudio });        
         var zoom = new Hammer.Pinch({ event: TCDEMO.EVENTS.pinch, enable: canEnableZoom });
         var hold = new Hammer.Press({ time: 500 });
         var swipe = new Hammer.Pan({ direction: Hammer.DIRECTION_VERTICAL });
         
-        doubleTap.recognizeWith(singleTap);
-        singleTap.requireFailure(doubleTap);                
+        // doubleTap.recognizeWith(singleTap);
+        // singleTap.requireFailure(doubleTap);                
 
-        gestures.add([zoom, hold, swipe, twoFingerTap, doubleTap, singleTap]);
+        // doubleTap,
+        gestures.add([zoom, hold, swipe, twoFingerTap, singleTap]);
 
-        gestures.get(TCDEMO.EVENTS.doubleTap).dropRequireFailure(TCDEMO.EVENTS.singleTap)
+        //gestures.get(TCDEMO.EVENTS.doubleTap).dropRequireFailure(TCDEMO.EVENTS.singleTap)
+        
     };
     
     function setupRecognizer (event) {
@@ -111,11 +113,22 @@ function EventsController () {
     };
 
     function setupHandler (event, callback) {
-        gestures.on(event, callback);
+        if (event === TCDEMO.EVENTS.doubleTap) {
+            setupDoubleClickEvent(callback);
+        } else {
+            if (event === TCDEMO.EVENTS.twoFingerTap) {
+                enableAudioPause();
+            }
+            gestures.on(event, callback);
+        }        
     };
 
     function removeHandler (event, callback) {
-        gestures.off(event, callback);
+        if (event === TCDEMO.EVENTS.doubleTap) {
+            $(scenario).off( "dblclick" );
+        } else {
+            gestures.off(event, callback);
+        } 
     };
 
     function setupDoubleClickEvent(callback) {
