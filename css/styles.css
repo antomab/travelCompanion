@@ -1,6 +1,6 @@
 html,
 body{
-  height: 100vh;
+  height: 100%;
 }
 
 body {
@@ -59,6 +59,9 @@ SCENARIOS
   background-color: #e64a19;
   border: none;
   padding: 25px;
+}
+button.secondary {
+  background-color: #ff7b47;
 }
 .skip {
   position: fixed;
