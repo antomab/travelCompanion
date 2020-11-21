@@ -97,6 +97,12 @@ function Scenario1 () {
         eventsCtrl.setupScenario(scenarioInfo.selectorId);
         eventsCtrl.setupAllEvents();
         setupEventHandlers();
+        
+        // set up parallax
+        parallaxOnboarding = new Parallax($scenario[0], {
+            relativeInput: true,
+            pointerEvents: true
+        });
 
         badgeMenuCtrl.show();
 
