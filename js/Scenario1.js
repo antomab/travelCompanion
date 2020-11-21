@@ -82,7 +82,7 @@ function Scenario1 () {
             audioCtrl.play(scenarioInfo.surroundings.audioSrc, false);
 
             // resume listening for single tap when audio stops
-            setInterval(() => {
+            setTimeout(() => {
                 eventsCtrl.setupHandler(TCDEMO.EVENTS.singleTap, onSingleTap);   
             }, scenarioInfo.surroundings.length);
         }

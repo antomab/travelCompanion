@@ -7,6 +7,7 @@ function Onboarding () {
     var onboardingElem = document.getElementById(onboardingElemId);
     var $onboardingElem = $('#' + onboardingElemId);
     var parallaxOnboarding;
+    var activeIntervalId;
     var audioController = new AudioController();
     var eventsController = new EventsController();    
     var menuCtrl = new MenuController();
@@ -143,6 +144,11 @@ function Onboarding () {
         audioController.play(steps[currentStep - 1].audioSrc, withPause);
     };
 
+    function clearActiveInterval () {
+        clearInterval(activeIntervalId);
+        activeIntervalId = null;
+    };
+
     function startOnboarding() {
         $onboardingElem.removeClass('hide');
         eventsController.setupScenario(onboardingElemId);
@@ -165,6 +171,7 @@ function Onboarding () {
         // setTimeout(eventsController.stopScenario, audiosOther.onboardingEnd.length);
 
         audioController.stop();
+        clearActiveInterval();
 
         parallaxOnboarding.disable();
         parallaxOnboarding.destroy();
@@ -184,8 +191,8 @@ function Onboarding () {
         }
     };
 
-    function onCardTapCallback (refreshIntervalId, liveCard) {                        
-        clearInterval(refreshIntervalId);
+    function onCardTapCallback (liveCard) {                        
+        clearActiveInterval();
 
         // play live-card audio
         audioController.play(audiosOther.liveCard.audioSrc);
@@ -204,8 +211,8 @@ function Onboarding () {
         nextStep();
     };
 
-    function onDoubleTapCallback (refreshIntervalId) {
-        clearInterval(refreshIntervalId);
+    function onDoubleTapCallback () {
+        clearActiveInterval();
 
         if (!menuCtrl.isOpen()) {
             // show menu 
@@ -224,8 +231,8 @@ function Onboarding () {
         nextStep();
     };
     
-    function onDescriptionPressCallback (refreshIntervalId) {
-        clearInterval(refreshIntervalId);
+    function onDescriptionPressCallback () {
+        clearActiveInterval();
 
         // play surroundings audio
         audioController.play(audiosOther.surroundings.audioSrc);
@@ -239,8 +246,8 @@ function Onboarding () {
         audioController.toggle();
     };
 
-    function onBadgeTapCallback (refreshIntervalId, badgeElement) {
-        clearInterval(refreshIntervalId);
+    function onBadgeTapCallback () {
+        clearActiveInterval();
 
         if (!badgeMenuCtrl.isActive()) {
             badgeMenuCtrl.activate();
@@ -277,12 +284,11 @@ function Onboarding () {
         switch (currentStep) {            
             case 2: 
                 var wasTapped = false;
-                var step2RefreshIntervalId;
                 var liveCard = $onboardingElem.find('.' + steps[currentStep - 1].element);
 
                 // set up Tap event
                 eventsController.setupEvent(TCDEMO.EVENTS.singleTap);
-                eventsController.setupHandler(TCDEMO.EVENTS.singleTap, () => onCardTapCallback(step2RefreshIntervalId, liveCard));                
+                eventsController.setupHandler(TCDEMO.EVENTS.singleTap, () => onCardTapCallback(liveCard));                
 
                 // play instructions
                 playCurrentStepAudio(true);
@@ -295,21 +301,20 @@ function Onboarding () {
                     audioController.play(audiosOther.chime.audioSrc);
                     
                     // play a reminder to Tap if nothing happens after every 5s
-                    step2RefreshIntervalId = setInterval(() => reminderCallback(wasTapped), 10000);
+                    activeIntervalId = setInterval(() => reminderCallback(wasTapped), 10000);
                 
                 }, steps[currentStep - 1].length + 3000);
 
                 break;
             case 3:
                 var wasTapped = false;
-                var step3RefreshIntervalId;
                 var badgeMenu = $onboardingElem.find('.' + steps[currentStep - 1].element);
                 
                 // set up events
                 eventsController.setupEvent(TCDEMO.EVENTS.singleTap);
                 eventsController.setupEvent(TCDEMO.EVENTS.swipe);
                 eventsController.setupEvent(TCDEMO.EVENTS.press);
-                eventsController.setupHandler(TCDEMO.EVENTS.singleTap, () => onBadgeTapCallback(step3RefreshIntervalId, badgeMenu));        
+                eventsController.setupHandler(TCDEMO.EVENTS.singleTap, onBadgeTapCallback);        
                 eventsController.setupHandler(TCDEMO.EVENTS.swipe, (ev) => onBadgeSwipeCallback(ev));                
                 eventsController.setupHandler(TCDEMO.EVENTS.press, onBadgePressCallback); 
 
@@ -323,25 +328,24 @@ function Onboarding () {
                     badgeMenuCtrl.show();
                     
                     // play a reminder to Tap if nothing happens after every 5s
-                    step3RefreshIntervalId = setInterval(() => reminderCallback(wasTapped), 10000);
+                    activeIntervalId = setInterval(() => reminderCallback(wasTapped), 10000);
                 
                 }, steps[currentStep - 1].length + 5000);
                 
                 break;
             case 4:  
                 var wasDoubleTapped = false;
-                var step4RefreshIntervalId;
 
                 // set up double-tap event to bring up menu
                 eventsController.setupDoubleClick(function () { 
-                    onDoubleTapCallback(step4RefreshIntervalId)
+                    onDoubleTapCallback()
                 });
 
                 // play instructions
                 playCurrentStepAudio();
 
                 // play a reminder to Double Tap if nothing happens after every 5s
-                step4RefreshIntervalId = setInterval(function () { 
+                activeIntervalId = setInterval(function () { 
                     reminderCallback(wasDoubleTapped) 
                 }, 10000);                   
                 
@@ -354,17 +358,16 @@ function Onboarding () {
                 break;
             case 6:  
                 var wasPressed = false;
-                var step6RefreshIntervalId;
 
                 // set up Press event
                 eventsController.setupEvent(TCDEMO.EVENTS.press);
-                eventsController.setupHandler(TCDEMO.EVENTS.press, () => onDescriptionPressCallback(step6RefreshIntervalId));                
+                eventsController.setupHandler(TCDEMO.EVENTS.press, onDescriptionPressCallback); 
                 
                 // play instructions
                 playCurrentStepAudio(true);
 
                 // play a reminder to Tap if nothing happens after every 5s
-                step6RefreshIntervalId = setInterval(() => reminderCallback(wasPressed), 10000);
+                activeIntervalId = setInterval(() => reminderCallback(wasPressed), 10000);
 
                 break;
             case 7: 
