@@ -125,6 +125,8 @@ function Scenario1 () {
     function endScenario () {
         badgeMenuCtrl.hide();
 
+        audioCtrl.stop();
+        
         destroyEventHandlers();
         eventsCtrl.stopScenario();
 
@@ -138,6 +140,6 @@ function Scenario1 () {
 
     return {
         start: startScenario,
-        end: endScenario
+        stop: endScenario
     }
 };

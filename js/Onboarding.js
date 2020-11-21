@@ -161,8 +161,10 @@ function Onboarding () {
     };
 
     function stopOnboarding () {
-        audioController.play(audiosOther.onboardingEnd.audioSrc);
-        setTimeout(eventsController.stopScenario, audiosOther.onboardingEnd.length);
+        // audioController.play(audiosOther.onboardingEnd.audioSrc);
+        // setTimeout(eventsController.stopScenario, audiosOther.onboardingEnd.length);
+
+        audioController.stop();
 
         parallaxOnboarding.disable();
         parallaxOnboarding.destroy();
@@ -171,7 +173,7 @@ function Onboarding () {
         
         $onboardingElem.addClass('hide');
 
-        $.event.trigger({
+        $.event.trigger({ 
             type: TCDEMO.ONBOARDING.finishedEvent
         });
     };
@@ -392,6 +394,7 @@ function Onboarding () {
     }
 
     return {
-        start: startOnboarding
+        start: startOnboarding,
+        stop: stopOnboarding
     }
 }

@@ -4,7 +4,9 @@ body{
 }
 
 body {
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
+  background-color: #424242;
+  color: white;
 }
 
 .hide {
@@ -44,12 +46,102 @@ body {
   transform: translate(-50%, -50%) !important;
 }
 
-#onboarding, 
-#scenario1 {
-  position: absolute;
-  top: 0;
-  /* top: 50%;
-  transform: translateY(-50%); */
+
+/* 
+ONBOARDING
+SCENARIOS
+ */
+ 
+ button {
+  font-size: 24px;
+  text-transform: uppercase;
+  color: black;
+  background-color: #e64a19;
+  border: none;
+  padding: 25px;
+}
+.skip {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+ #onboarding, 
+ #scenario1 {
+   position: absolute;
+   top: 0;
+ }
+ 
+.intermission {
+  background-color: #424242;
+  color: white;
+  padding: 30px;
+  width: 100%;
+  height: 100%;
+}
+.intermission h1 {
+  text-align: center;
+  font-size: 39px;  
+}
+.intermission p {
+  font-size: 28px;
+  text-align: center;
+  width: 80%;
+  margin: 50px auto;
+}
+#instructions2.intermission p {
+  margin: 0 auto;
+  width: 97%;
+}
+#instructions2.intermission p.trigger-survey {
+  font-style: italic;
+  margin: 20px auto;
+}
+#instructions2.intermission p.trigger-survey:last-child {
+  margin-bottom: 30px;
+}
+.intermission .button-container {
+  width: 100%;
+  margin-top: 10%;
+  text-align: center;
+}
+.intermission .button-container button:first-child {
+  margin-right: 35px;
+}
+#instructions2.intermission .button-container {
+  margin-top: 5%;
+}
+ 
+
+/* PARALLAX */
+
+.scene,
+.layer {
+    display: block;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+.scene {
+    min-height: 460px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+.scene.hide {
+  display: none;
+}
+
+.layer img {
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 
@@ -211,49 +303,4 @@ body {
 
 @-webkit-keyframes slide-in {
     100% {-webkit-transform: scaleX(1) scaleY(1); }
-}
-
-
-/* 
-ONBOARDING
-SCENARIO 1
- */
-.start {
-  font-size: 24px;
-  text-transform: uppercase;
-  color: white;
-  background-color: rgba(0, 0, 0, .8);
-  border: none;
-  height: 100%;
-  width: 100%;
-}
-
-/* PARALLAX */
-
-.scene,
-.layer {
-    display: block;
-    height: 100%;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-}
-
-.scene {
-    min-height: 460px;
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-}
-
-.layer img {
-    -webkit-transform: translate3d(0, 0, 0);
-    -moz-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    -webkit-backface-visibility: hidden;
-    -moz-backface-visibility: hidden;
-    backface-visibility: hidden;
 }

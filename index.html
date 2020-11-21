@@ -19,6 +19,17 @@
 	<body>
     <audio id="audio" class="hide" crossOrigin="anonymous"></audio>
     
+    <div id="welcome" class="intermission welcome hide">
+      <h1>Welcome to the Travel Companion test!</h1>
+      <p>We'll guide you through a quick on-boarding process, followed by two short scenarios.</p>
+           
+      <div class="button-container">
+        <button id="onboardingStart" class="start">Start On-Boarding</button>
+        <button class="quit">Exit Test</button>
+      </div>      
+    </div>
+
+
     <div id="onboarding" class="scene hide" data-limit-x="160" data-limit-y="160">
       <div id="o_main" class="background-img layer" data-depth="0.6">
         <img src="assets/background-onboarding.png" />
@@ -37,49 +48,60 @@
            <img class="badge-number" src="assets/2.png"> 
          </div>
        </div>
-     </div>
-     <button id="skipOnboarding" class="skip">Skip Onboarding</button>
+     </div>    
     </div>
-    <button id="onboardingStart" class="start center-screen">Start Onboarding</button>
+    <button id="skipOnboarding" class="skip hide">Skip Onboarding</button>
 
-    <div id="instructions1" class="intermission instructions">
+
+    <div id="instructions1" class="intermission instructions hide">
       <h1>Scenario #1 - At the bus stop</h1>
       <p>You've just arrived at the bus stop and the assistant informs you of the buses 
         you can take in order to get to your destination.</p>
       <p>With the gestures you just learn, try to find out where each bus is bound to, and select one when you're ready to "board".</p>
 
-      <button id="scenario1Start" class="start center-screen hide">Start Scenario #1</button>
+      <div class="button-container">
+        <button id="scenario1Start" class="start">Start Scenario #1</button>      
+        <button class="quit">Exit Test</button>
+      </div>
     </div>
 
     <div id="scenario1" class="scene hide"  data-limit-x="160" data-limit-y="160">
         <div id="sc1_main" class="container background-img layer" data-depth="0.6">
           <img src="assets/BusStop.png"/>.
-        </div>
-        <button id="skipScenario1" class="skip">Skip Scenario</button>
+        </div>     
     </div>
+    <button id="skipScenario1" class="skip hide">Skip Scenario #1</button>   
     
-    <div id="instructions2" class="intermission survey">
-      <h1>Scenario #1 Complete</h1>
-      <p>Well done on completing the first scenario.</p>
-      <p>We have a few questions about the task you just completed. It should only take 1 or 2 minutes</p>
-
-      <p>To start the survey, say:</p>
+    <div id="instructions2" class="intermission survey hide">
+      <h1>Scenario #1 Complete!</h1>
+      <p>We have a few questions about the task you just completed. 
+        It should only take 1 or 2 minutes. To start the survey use your phone assistant and say:</p>
       
       <p class="trigger-survey">"Alexa/Google, Launch SurveyLine."</p>
       <p>And when prompted, say the name of the survey: </p>
       
-      <p>Use Name: "Travel Companion One"</p>
+      <p class="trigger-survey">Use Name: "Travel Companion One"</p>
 
       <p class="end">When you're ready, move on to the next scenario.</p>
 
-      <button id="scenario1Start" class="start center-screen hide">Start Scenario #1</button>
-      
-      <button id="quit" class="quit center-screen hide">Exit Test</button>
+      <div class="button-container">
+        <button id="scenario2Start" class="start">Start Scenario #2</button>      
+        <button class="quit">Exit Test</button>
+      </div>      
     </div>
 
 
+    <div id="scenario2" class="scene hide"  data-limit-x="160" data-limit-y="160">
+        <div id="sc1_main" class="container background-img layer" data-depth="0.6">
+          <img src="assets/BusStop.png"/>.
+        </div>    
+    </div>
+    <button id="skipScenario2" class="skip hide">Skip Scenario #2</button>   
 
 
+    <div id="endTest" class="intermission final hide">      
+      <p>Thank you for taking part in this test!</p>      
+    </div>
 
     <div id="menu" class="menu center-screen hide">
       <div class="menu-tiny-slider">

@@ -54,7 +54,9 @@ function AudioController () {
     };
 
     function stopAudio () {
-        audioElement.stop();
+        //audioElement.stop();
+        audioElement.pause();
+        audioElement.currentTime = 0;
         fileSrc = '';
     };
 
