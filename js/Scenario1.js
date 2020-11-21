@@ -2,13 +2,17 @@
 Waiting at the bus stop. 
 Select which bus was taken
 */
+var TCDEMO = TCDEMO || {};
+TCDEMO.SCENARIO1 = {
+    finishedEvent: 'scenario1::finished'
+};
 
 function Scenario1 () {
     var $scenario;
     var audioCtrl = new AudioController();
     var eventsCtrl = new EventsController();
+    var menuCtrl = new MenuController();    
     var badgeMenuCtrl = new BadgeMenuController();
-    var menuCtrl = new MenuController();
 
     var scenarioInfo = {
         selectorId: 'scenario1',
@@ -72,7 +76,7 @@ function Scenario1 () {
         } else {
             // pause handler for single tap
             eventsCtrl.removeHandler(TCDEMO.EVENTS.singleTap, onSingleTap);  
-             
+
             audioCtrl.play(scenarioInfo.surroundings.audioSrc, false);
 
             // resume listening for single tap when audio stops
@@ -126,6 +130,10 @@ function Scenario1 () {
 
         $scenario.addClass('hide');
         $scenario = null;
+        
+        $.event.trigger({
+            type: TCDEMO.SCENARIO1.finishedEvent
+        });
     }
 
     return {

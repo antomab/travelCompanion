@@ -26,19 +26,60 @@
       <div class="live-card center-screen hide" data-depth="0.4">
         <img src="assets/Badge_Text_Circle.png" />
       </div>
+      <div id="badgeMenuOnboarding" class="badge-menu badge-menu-onboarding hide" data-depth="0.4">
+        <div class="badge-menu-container">
+         <div class="badge-menu-item badge-1" data-index="0">
+           <img class="badge-to to1" src="assets/firstItemInfo.png">
+           <img class="badge-number" src="assets/1.png">
+         </div>
+         <div class="badge-menu-item badge-2" data-index="1">       
+           <img class="badge-to to2" src="assets/secondItemInfo.png">
+           <img class="badge-number" src="assets/2.png"> 
+         </div>
+       </div>
+     </div>
+     <button id="skipOnboarding" class="skip">Skip Onboarding</button>
     </div>
-    <button id="onboardingStart" class="start center-screen hide">Start Onboarding</button>
+    <button id="onboardingStart" class="start center-screen">Start Onboarding</button>
 
+    <div id="instructions1" class="intermission instructions">
+      <h1>Scenario #1 - At the bus stop</h1>
+      <p>You've just arrived at the bus stop and the assistant informs you of the buses 
+        you can take in order to get to your destination.</p>
+      <p>With the gestures you just learn, try to find out where each bus is bound to, and select one when you're ready to "board".</p>
+
+      <button id="scenario1Start" class="start center-screen hide">Start Scenario #1</button>
+    </div>
 
     <div id="scenario1" class="scene hide"  data-limit-x="160" data-limit-y="160">
         <div id="sc1_main" class="container background-img layer" data-depth="0.6">
           <img src="assets/BusStop.png"/>.
         </div>
-        <!-- <div id="zoomin" class="container hide background-img">
-          <img src="assets/Mock_Attractions_Info_zoomIn.png"/>
-        </div>         -->
+        <button id="skipScenario1" class="skip">Skip Scenario</button>
     </div>
-    <button id="scenario1Start" class="start center-screen">Start Scenario #1</button>
+    
+    <div id="instructions2" class="intermission survey">
+      <h1>Scenario #1 Complete</h1>
+      <p>Well done on completing the first scenario.</p>
+      <p>We have a few questions about the task you just completed. It should only take 1 or 2 minutes</p>
+
+      <p>To start the survey, say:</p>
+      
+      <p class="trigger-survey">"Alexa/Google, Launch SurveyLine."</p>
+      <p>And when prompted, say the name of the survey: </p>
+      
+      <p>Use Name: "Travel Companion One"</p>
+
+      <p class="end">When you're ready, move on to the next scenario.</p>
+
+      <button id="scenario1Start" class="start center-screen hide">Start Scenario #1</button>
+      
+      <button id="quit" class="quit center-screen hide">Exit Test</button>
+    </div>
+
+
+
+
 
     <div id="menu" class="menu center-screen hide">
       <div class="menu-tiny-slider">

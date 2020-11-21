@@ -1,3 +1,4 @@
+var TCDEMO = TCDEMO || {};
 TCDEMO.MENU = {
     itemChangedEvent: 'menu::itemChanged'
 };

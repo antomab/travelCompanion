@@ -1,4 +1,4 @@
-var TCDEMO = {};
+var TCDEMO = TCDEMO || {};
 
 TCDEMO.EVENTS = {
     singleTap: 'tap',

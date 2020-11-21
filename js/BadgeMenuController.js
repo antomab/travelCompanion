@@ -1,20 +1,25 @@
+var TCDEMO = TCDEMO || {};
 TCDEMO.BADGEMENU = {
     itemSelectedEvent: 'badgeMenu::itemSelected'
 };
 
-function BadgeMenuController () {
+function BadgeMenuController (info, items) {
     var $badgeMenu;
     var audioCtrl = new AudioController();
 
-    var badgeMenuInfo = {
+    var badgeMenuInfo = info || {
         selectorId: 'badgeMenu',
+        chime: {
+            audioSrc: 'assets/audios/badgeMenu/beepShort.mp3',
+            length: 1000
+        },
         onMenuClosed: {
             audioSrc: 'assets/audios/badgeMenu/menuClosed.mp3',
             length: 1000
         }
     };
 
-    var menuItems = [
+    var menuItems = items || [
         {
             index: 0,
             description: 'bus 158',            
@@ -34,7 +39,7 @@ function BadgeMenuController () {
             }
         },
         {
-            index: 0,
+            index: 1,
             description: 'bus 6A',
             itemSelector: '.badge-6A',
             toSelector: '.to6A',
@@ -140,6 +145,9 @@ function BadgeMenuController () {
     function showBadgeMenu () {
         $badgeMenu =$ ('#' + badgeMenuInfo.selectorId)
         $badgeMenu.removeClass('hide');
+
+        // announce a badge is available
+        audioCtrl.play(badgeMenuInfo.chime.audioSrc);
     };
 
     function hideBadgeMenu () {
