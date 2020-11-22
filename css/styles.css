@@ -53,12 +53,12 @@ SCENARIOS
  */
  
  button {
-  font-size: 24px;
+  font-size: 2.4rem;
   text-transform: uppercase;
   color: black;
   background-color: #e64a19;
   border: none;
-  padding: 25px;
+  padding: 2.5rem;
 }
 button.secondary {
   background-color: #ff7b47;
@@ -67,6 +67,10 @@ button.secondary {
   position: fixed;
   bottom: 0;
   right: 0;
+}
+button.skip {
+  font-size: 2rem;
+  padding: 2rem;
 }
  #onboarding, 
  #scenario1 {
@@ -77,19 +81,21 @@ button.secondary {
 .intermission {
   background-color: #424242;
   color: white;
-  padding: 30px;
+  padding: 2rem;
   width: 100%;
-  height: 100%;
+  height: 100%; 
+  overflow: scroll;
 }
 .intermission h1 {
+  margin-top: 0;
   text-align: center;
-  font-size: 39px;  
+  font-size: 3.2rem; 
 }
 .intermission p {
-  font-size: 28px;
+  font-size: 2.5rem;
   text-align: center;
-  width: 80%;
-  margin: 50px auto;
+  width: 90%;
+  margin: 3rem auto;
 }
 #instructions2.intermission p {
   margin: 0 auto;
@@ -97,25 +103,25 @@ button.secondary {
 }
 #instructions2.intermission p.trigger-survey {
   font-style: italic;
-  margin: 20px auto;
+  margin: 2rem auto;
 }
 #instructions2.intermission p.trigger-survey:last-child {
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
 }
 .intermission .button-container {
   width: 100%;
-  margin-top: 10%;
+  margin-top: 7%;
   text-align: center;
 }
 .intermission .button-container button:first-child {
-  margin-right: 35px;
+  margin-right: 3.5rem;
 }
 #instructions2.intermission .button-container {
   margin-top: 5%;
 }
 
 #scenario2 .live-card {
-  left: 330px !important;
+  left: 33rem !important;
 }
 
 
@@ -130,7 +136,7 @@ button.secondary {
     margin: 0;
 }
 .scene {
-    min-height: 460px;
+    min-height: 46rem;
     position: relative;
     overflow: hidden;
     width: 100%;
@@ -164,11 +170,11 @@ button.secondary {
   }
 }
 #menu #tns1-iw {
-  margin-top: 115px;
+  margin-top: 11.5rem;
 }
 #menu .menu-item {
-  height: 100px;
-  margin: 15px 0;
+  height: 10rem;
+  margin: 1.5rem 0;
 }
 #menu .menu-item img {
   height: 100%;
@@ -183,11 +189,11 @@ button.secondary {
 /* smartphones */
 @media (min-width:320px) {
   #menu #tns1-iw {
-    margin-top: 57px;
+    margin-top: 5.7rem;
   }
   #menu .menu-item {
-    height: 50px;
-    margin: 7px 0;
+    height: 5rem;
+    margin: .7rem 0;
   }
 }
 
@@ -262,21 +268,21 @@ button.secondary {
 }
 .badge-menu .badge-menu-item .badge-to.to158,
 .badge-menu .badge-menu-item .badge-to.to1 {
-  top: 42px;
+  top: 4rem;
 }
 .badge-menu .badge-menu-item .badge-to.to6A,
 .badge-menu .badge-menu-item .badge-to.to2 {
-  top: 35px;
+  top: 3.5rem;
 }
 
 .badge-menu .badge-menu-item .number {
-  margin-top: 7px;
+  margin-top: .7rem;
 }
 .badge-menu .badge-menu-item.active {
   background-image: url('../assets/badgeMenu/active.png');
   background-repeat: no-repeat;
   background-size: 70%;
-  background-position: center 7px;
+  background-position: center .7rem;
 }
 
 
