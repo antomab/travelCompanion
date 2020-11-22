@@ -3,6 +3,7 @@ function Demo () {
     var menuCtrl = new MenuController();
     var onboardingCtrl = new Onboarding();
     var scenario1Ctrl = new Scenario1();
+    var scenario2Ctrl = new Scenario2();
 
     var scenes = {
         welcome: {
@@ -27,6 +28,11 @@ function Demo () {
         },
         instructions2: {
             elementId: 'instructions2',
+            audioSrc: '',
+            length: 0
+        },
+        instructions3: {
+            elementId: 'instructions3',
             audioSrc: '',
             length: 0
         },
@@ -73,7 +79,8 @@ function Demo () {
 
     // START TEST
     $(document).ready(function () {
-        showScene(scenes.welcome.elementId);
+       // showScene(scenes.welcome.elementId);
+       showScene(scenes.instructions3.elementId);
     });
    
     // EXIT TEST
@@ -114,15 +121,27 @@ function Demo () {
         scenario1Ctrl.stop();
     });
 
+    // SHOW INSTRUCTIONS SCENARIO #2
+    var instructions3Btn = $('#showInstructions3');
+    instructions3Btn.on('click', function () {
+        hideScene(scenes.instructions2.elementId);
+        showScene(scenes.instructions3.elementId);
+    });
+
     // START SCENARIO #2
     var scenario2Btn =  $('#scenario2Start');
     scenario2Btn.on('click', function () {
-        hideScene(scenes.instructions2.elementId);
+        hideScene(scenes.instructions3.elementId);
         showScene(scenes.scenario2.elementId);
  
-        //scenario2Ctrl.start();        
+        scenario2Ctrl.start();        
     });
 
+    // SKIP SCENARIO #2
+    var skipScenario2Btn = $('#skipScenario2');
+    skipScenario2Btn.on('click', function () {
+        scenario2Ctrl.stop();
+    });
 
     // EVENTS - ON SCENES COMPLETED
     $(document).on(TCDEMO.ONBOARDING.finishedEvent, (data) => {
@@ -133,10 +152,10 @@ function Demo () {
         hideScene(scenes.scenario1.elementId);
         showScene(scenes.instructions2.elementId);
     });    
-    // $(document).on(TCDEMO.SCENARIO2.finishedEvent, (data) => {
-    //     hideScene(scenes.scenario2.elementId);
-    //     showScene(scenes.end.elementId);
-    // });
+    $(document).on(TCDEMO.SCENARIO2.finishedEvent, (data) => {
+        hideScene(scenes.scenario2.elementId);
+        showScene(scenes.end.elementId);
+    });
 
     
 

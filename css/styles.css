@@ -113,7 +113,11 @@ button.secondary {
 #instructions2.intermission .button-container {
   margin-top: 5%;
 }
- 
+
+#scenario2 .live-card {
+  left: 330px !important;
+}
+
 
 /* PARALLAX */
 
@@ -153,6 +157,11 @@ button.secondary {
 #menu {
   color: #ffffff;
   width: 68%;
+}
+@media (orientation: landscape) {
+  #menu {
+    width: 44%;
+  }
 }
 #menu #tns1-iw {
   margin-top: 115px;

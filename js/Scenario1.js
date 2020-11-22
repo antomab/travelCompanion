@@ -1,6 +1,6 @@
 /*
 Waiting at the bus stop. 
-Select which bus was taken
+Task: Select which bus was taken
 */
 var TCDEMO = TCDEMO || {};
 TCDEMO.SCENARIO1 = {
@@ -10,6 +10,7 @@ TCDEMO.SCENARIO1 = {
 function Scenario1 () {
     var $scenario;
     var activeTimeouts = [];
+    var parallaxScenario1;
     var audioCtrl = new AudioController();
     var eventsCtrl = new EventsController();
     var menuCtrl = new MenuController();    
@@ -120,7 +121,7 @@ function Scenario1 () {
         setupEventHandlers();
         
         // set up parallax
-        parallaxOnboarding = new Parallax($scenario[0], {
+        parallaxScenario1 = new Parallax($scenario[0], {
             relativeInput: true,
             pointerEvents: true
         });
@@ -139,6 +140,9 @@ function Scenario1 () {
         clearActiveTimeouts();
         destroyEventHandlers();
         eventsCtrl.stopScenario();
+        
+        parallaxScenario1.disable();
+        parallaxScenario1.destroy();
 
         $scenario.addClass('hide');
         $scenario = null;

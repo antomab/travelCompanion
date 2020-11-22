@@ -143,7 +143,7 @@ function BadgeMenuController (info, items) {
     };
 
     function showBadgeMenu () {
-        $badgeMenu =$ ('#' + badgeMenuInfo.selectorId)
+        $badgeMenu = $('#' + badgeMenuInfo.selectorId)
         $badgeMenu.removeClass('hide');
 
         // announce a badge is available

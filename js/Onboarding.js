@@ -121,9 +121,9 @@ function Onboarding () {
             audioSrc: 'assets/audios/onboarding/sampleBadge.mp3',
             length: 1000
         },
-        guide: {
-            audioSrc: 'assets/audios/onboarding/tourguide.mp3',
-            length: 15000
+        longAudio: {
+            audioSrc: 'assets/audios/onboarding/longAudio.mp3',
+            length: 12000
         },
         surroundings: {
             audioSrc: 'assets/audios/onboarding/description.mp3',
@@ -180,6 +180,7 @@ function Onboarding () {
         audioController.stop();
         clearActiveInterval();
         clearActiveTimeouts();
+        $(document).off(TCDEMO.AUDIO.audioEndedEvent, (data) => onLongAudioStopped(data));
 
         parallaxOnboarding.disable();
         parallaxOnboarding.destroy();
@@ -285,6 +286,12 @@ function Onboarding () {
             audioController.play(activeItem.audio.onSelected.audioSrc, false);
         } 
     };
+    function onLongAudioStopped (data) {
+        if (data.audioSrc === audiosOther.longAudio.audioSrc) {
+            // move to the next step when audio finishes
+            nextStep();
+        }                    
+    };
 
     function nextStep () {
         currentStep += 1;
@@ -388,14 +395,18 @@ function Onboarding () {
 
                 // allow instructions to start playing before continuing
                 activeTimeouts.push(setTimeout(function () {                                    
-                   
+                
                     // play audio to test pausing and resuming
-                    audioController.play(audiosOther.guide.audioSrc);
+                    audioController.play(audiosOther.longAudio.audioSrc);
                     
-                    // move to the next step when audio finishes
-                    activeTimeouts.push(setTimeout(nextStep, audiosOther.guide.length + 4000));
+                    $(document).on(TCDEMO.AUDIO.audioEndedEvent, (data) => onLongAudioStopped(data));
 
-                }, steps[currentStep - 1].length + 3000));            
+                    
+                    // // move to the next step when audio finishes
+                    // activeTimeouts.push(setTimeout(nextStep, audiosOther.longAudio.length + 4000));
+
+                }, steps[currentStep - 1].length + 3000));  
+                               
               
                 break;  
             default:

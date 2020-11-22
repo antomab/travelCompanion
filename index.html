@@ -32,20 +32,20 @@
 
     <div id="onboarding" class="scene hide" data-limit-x="160" data-limit-y="160">
       <div id="o_main" class="background-img layer" data-depth="0.6">
-        <img src="assets/background-onboarding.png" />
+        <img src="assets/onboarding/background-onboarding.png" />
       </div>      
       <div class="live-card center-screen hide" data-depth="0.4">
-        <img src="assets/sampleBadge.png" />
+        <img src="assets/onboarding/sampleBadge.png" />
       </div>
       <div id="badgeMenuOnboarding" class="badge-menu badge-menu-onboarding hide" data-depth="0.4">
         <div class="badge-menu-container">
          <div class="badge-menu-item badge-1" data-index="0">
-           <img class="badge-to to1" src="assets/firstItemInfo.png">
-           <img class="badge-number" src="assets/1.png">
+           <img class="badge-to to1" src="assets/onboarding/firstItemInfo.png">
+           <img class="badge-number" src="assets/onboarding/1.png">
          </div>
          <div class="badge-menu-item badge-2" data-index="1">       
-           <img class="badge-to to2" src="assets/secondItemInfo.png">
-           <img class="badge-number" src="assets/2.png"> 
+           <img class="badge-to to2" src="assets/onboarding/secondItemInfo.png">
+           <img class="badge-number" src="assets/onboarding/2.png"> 
          </div>
        </div>
      </div>    
@@ -67,10 +67,10 @@
 
     <div id="scenario1" class="scene hide"  data-limit-x="160" data-limit-y="160">
         <div id="sc1_main" class="container background-img layer" data-depth="0.6">
-          <img src="assets/BusStop.png"/>.
+          <img src="assets/scenario1/BusStop.png"/>.
         </div>     
     </div>
-    <button id="skipScenario1" class="skip hide">Skip Scenario #1</button>   
+    <button id="skipScenario1" class="skip hide">End Scenario #1</button>   
     
     <div id="instructions2" class="intermission survey hide">
       <h1>Scenario #1 Complete!</h1>
@@ -85,18 +85,32 @@
       <p class="end">When you're ready, move on to the next scenario.</p>
 
       <div class="button-container">
-        <button id="scenario2Start" class="start">Start Scenario #2</button>      
+        <button id="showInstructions3" class="start">Start Scenario #2</button>      
         <button class="quit">Exit Test</button>
       </div>      
     </div>
 
+    <div id="instructions3" class="intermission instructions hide">
+      <h1>Scenario #2 - Following a Walking Guide</h1>
+      <p>You are walking around a piazza in Rome, following your walking guide tour.
+      Explore your surroundings and try to learn more about the buildings in front of you.</p>
+      <p>When you're finished, exit the walking guide by calling up the menu and selecting "Exit Navigation".</p>
+
+      <div class="button-container">
+        <button id="scenario2Start" class="start">Start Scenario #2</button>      
+        <button class="quit">Exit Test</button>
+      </div>
+    </div>
 
     <div id="scenario2" class="scene hide"  data-limit-x="160" data-limit-y="160">
-        <div id="sc1_main" class="container background-img layer" data-depth="0.6">
-          <img src="assets/BusStop.png"/>.
-        </div>    
+        <div id="sc2_main" class="container background-img layer" data-depth="0.6">
+          <img src="assets/scenario2/background.png"/>.
+        </div>        
+        <div class="live-card hide" data-depth="0.4">
+          <img src="assets/scenario2/twinChurchesBadgeConnector.png" />
+        </div>
     </div>
-    <button id="skipScenario2" class="skip hide">Skip Scenario #2</button>   
+    <button id="skipScenario2" class="skip hide">End Scenario #2</button>   
 
 
     <div id="endTest" class="intermission final hide">      
@@ -107,8 +121,8 @@
       <div class="menu-tiny-slider">
         <div class="menu-item" data-index="0"><img src="assets/menu/menu_camera.png"></div>
         <div class="menu-item" data-index="1"><img src="assets/menu/menu_landmarks.png"></div>
-        <div class="menu-item" data-index="2"><img src="assets/menu/menu_exitNav.png"></div>
-        <div class="menu-item" data-index="3"><img src="assets/menu/menu_restaurants.png"></div>
+        <div class="menu-item" data-index="2"><img src="assets/menu/menu_restaurants.png"></div>
+        <div class="menu-item" data-index="3"><img src="assets/menu/menu_exitNav.png"></div>
         <div class="menu-item" data-index="4"><img src="assets/menu/menu_stories.png"></div>
       </div>
     </div>
@@ -141,6 +155,7 @@
         <script src="js/BadgeMenuController.js" crossorigin="anonymous"></script>
         <script src="js/Onboarding.js" crossOrigin="anonymous"></script>
         <script src="js/Scenario1.js" crossorigin="anonymous"></script>
+        <script src="js/Scenario2.js" crossorigin="anonymous"></script>
 		    <script src="js/demo.js" crossOrigin="anonymous"></script>
 	</body>
 </html>

@@ -1,20 +1,26 @@
+var TCDEMO = TCDEMO || {};
+TCDEMO.AUDIO = {
+    audioEndedEvent: 'audioController::audioStopped'
+};
+
 function AudioController () {
     var audioElement = $('#audio')[0];
-    var fileSrc = '';
 
-    $(audioElement).bind('ended', function(){
-        // done playing
-        fileSrc = '';
-
-        // $.event.trigger({
-        //     type: "audioStopped"
-        // });
-    });
-    
+    function getSrc(currentSrc, baseURI) {
+        return currentSrc.replace(baseURI, '');
+    }
+    function setupEvents () {
+        // announce when audio has finished
+        audioElement.addEventListener('ended', function(event){
+            $.event.trigger({
+                type: TCDEMO.AUDIO.audioEndedEvent,
+                audioSrc: getSrc(event.currentTarget.currentSrc, event.currentTarget.baseURI)
+            });
+        });
+    };       
 
     function setAudioSrc (src) {
-        fileSrc = src;
-        audioElement.setAttribute('src', fileSrc);
+        audioElement.setAttribute('src', src);
     }
 
     function playAudioPromise () {
@@ -49,6 +55,11 @@ function AudioController () {
         }
     };
 
+    function playAudioAtTime (src, time, withPause) {
+        audioElement.currentTime = time;
+        playAudio(src, withPause);
+    }
+
     function pauseAudio () {
         audioElement.pause();
     };
@@ -57,24 +68,31 @@ function AudioController () {
         //audioElement.stop();
         audioElement.pause();
         audioElement.currentTime = 0;
-        fileSrc = '';
     };
 
-    function toggleAudio () {
-        if (!fileSrc || fileSrc === '') return;
-        
+    function toggleAudio () {        
         if (audioElement.paused) {
             audioElement.play();
         } else {
             pauseAudio();
         }
+    };
+
+    function getCurrentPlaying() {
+        return {
+            audioSrc: getSrc(audioElement.currentSrc, audioElement.baseURI),
+            currentTime: audioElement.currentTime
+        }
     }
 
     return {
+        setup: setupEvents,
         setAudioSource: setAudioSrc,
         play: playAudio,
+        playAt: playAudioAtTime,
         pause: pauseAudio,
         stop: stopAudio,
-        toggle: toggleAudio
+        toggle: toggleAudio,
+        getCurrent: getCurrentPlaying
     }
 };
