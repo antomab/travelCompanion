@@ -8,6 +8,7 @@ function Onboarding () {
     var $onboardingElem = $('#' + onboardingElemId);
     var parallaxOnboarding;
     var activeIntervalId;
+    var activeTimeouts = [];
     var audioController = new AudioController();
     var eventsController = new EventsController();    
     var menuCtrl = new MenuController();
@@ -117,8 +118,8 @@ function Onboarding () {
     ];
     var audiosOther = {
         liveCard: {
-            audioSrc: 'assets/audios/onboarding/twin-churches.mp3',
-            length: 11000
+            audioSrc: 'assets/audios/onboarding/sampleBadge.mp3',
+            length: 1000
         },
         guide: {
             audioSrc: 'assets/audios/onboarding/tourguide.mp3',
@@ -149,6 +150,12 @@ function Onboarding () {
         activeIntervalId = null;
     };
 
+    function clearActiveTimeouts () {
+        for (var i=0; i<activeTimeouts.length; i++) {
+            clearTimeout(activeTimeouts[i]);
+        }
+    }
+
     function startOnboarding() {
         $onboardingElem.removeClass('hide');
         eventsController.setupScenario(onboardingElemId);
@@ -163,7 +170,7 @@ function Onboarding () {
         playCurrentStepAudio();
 
         // move to the next step when audio finishes
-        setTimeout(nextStep, steps[currentStep - 1].length + 1000);
+        activeTimeouts.push(setTimeout(nextStep, steps[currentStep - 1].length + 1000));
     };
 
     function stopOnboarding () {
@@ -172,6 +179,7 @@ function Onboarding () {
 
         audioController.stop();
         clearActiveInterval();
+        clearActiveTimeouts();
 
         parallaxOnboarding.disable();
         parallaxOnboarding.destroy();
@@ -201,7 +209,7 @@ function Onboarding () {
         eventsController.removeHandler(TCDEMO.EVENTS.singleTap, onCardTapCallback);
 
         // allow audio to play out before hiding again
-        setTimeout(() => liveCardFinalizeCallback(liveCard), audiosOther.liveCard.length + 3000);                            
+        activeTimeouts.push(setTimeout(() => liveCardFinalizeCallback(liveCard), audiosOther.liveCard.length + 3000));
     };
     function liveCardFinalizeCallback (element) {
         // hide live-card
@@ -238,7 +246,7 @@ function Onboarding () {
         audioController.play(audiosOther.surroundings.audioSrc);
 
         // allow audio to play out before moving on
-        setTimeout(nextStep, audiosOther.surroundings.length + 2000);
+        activeTimeouts.push(setTimeout(nextStep, audiosOther.surroundings.length + 2000));
     };
 
     function onTwoFingerTapCallback () {
@@ -261,7 +269,7 @@ function Onboarding () {
             badgeMenuCtrl.hide();            
 
             // move to the next step
-            setTimeout(nextStep, badgeMenuInfo.onMenuClosed.length + 2000);
+            activeTimeouts.push(setTimeout(nextStep, badgeMenuInfo.onMenuClosed.length + 2000));
         }
     };
     function onBadgeSwipeCallback (event) {
@@ -294,7 +302,7 @@ function Onboarding () {
                 playCurrentStepAudio(true);
 
                 // allow instructions to start playing before continuing
-                setTimeout(function () {
+                activeTimeouts.push(setTimeout(function () {
                     
                     // show live card sample, with chime                
                     liveCard.removeClass('hide');
@@ -303,7 +311,7 @@ function Onboarding () {
                     // play a reminder to Tap if nothing happens after every 5s
                     activeIntervalId = setInterval(() => reminderCallback(wasTapped), 10000);
                 
-                }, steps[currentStep - 1].length + 3000);
+                }, steps[currentStep - 1].length + 3000));
 
                 break;
             case 3:
@@ -322,7 +330,7 @@ function Onboarding () {
                 playCurrentStepAudio(true);
 
                 // allow instructions to start playing before continuing
-                setTimeout(function () {
+                activeTimeouts.push(setTimeout(function () {
                     
                     // show badge menu sample
                     badgeMenuCtrl.show();
@@ -330,7 +338,7 @@ function Onboarding () {
                     // play a reminder to Tap if nothing happens after every 5s
                     activeIntervalId = setInterval(() => reminderCallback(wasTapped), 10000);
                 
-                }, steps[currentStep - 1].length + 5000);
+                }, steps[currentStep - 1].length + 5000));
                 
                 break;
             case 4:  
@@ -379,15 +387,15 @@ function Onboarding () {
                 playCurrentStepAudio();
 
                 // allow instructions to start playing before continuing
-                setTimeout(function () {                                    
+                activeTimeouts.push(setTimeout(function () {                                    
                    
                     // play audio to test pausing and resuming
                     audioController.play(audiosOther.guide.audioSrc);
                     
                     // move to the next step when audio finishes
-                    setTimeout(nextStep, audiosOther.guide.length + 4000);
+                    activeTimeouts.push(setTimeout(nextStep, audiosOther.guide.length + 4000));
 
-                }, steps[currentStep - 1].length + 3000);            
+                }, steps[currentStep - 1].length + 3000));            
               
                 break;  
             default:

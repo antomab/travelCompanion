@@ -9,6 +9,7 @@ TCDEMO.SCENARIO1 = {
 
 function Scenario1 () {
     var $scenario;
+    var activeTimeouts = [];
     var audioCtrl = new AudioController();
     var eventsCtrl = new EventsController();
     var menuCtrl = new MenuController();    
@@ -26,6 +27,12 @@ function Scenario1 () {
         }
     };
     
+    function clearActiveTimeouts () {
+        for (var i=0; i<activeTimeouts.length; i++) {
+            clearTimeout(activeTimeouts[i]);
+        }
+    };
+
     // single tap to activate badge (select 1st item) or
     // to exit badge if already active
     function onSingleTap () {
@@ -74,7 +81,7 @@ function Scenario1 () {
             var activeItem = badgeMenuCtrl.getActive();
             audioCtrl.play(activeItem.audio.onSelected.audioSrc, false);
 
-            setTimeout(endScenario, activeItem.audio.onSelected.length + 2000);
+            activeTimeouts.push(setTimeout(endScenario, activeItem.audio.onSelected.length + 2000));
         } else {
             // pause handler for single tap
             eventsCtrl.removeHandler(TCDEMO.EVENTS.singleTap, onSingleTap);  
@@ -82,9 +89,9 @@ function Scenario1 () {
             audioCtrl.play(scenarioInfo.surroundings.audioSrc, false);
 
             // resume listening for single tap when audio stops
-            setTimeout(() => {
+            activeTimeouts.push(setTimeout(() => {
                 eventsCtrl.setupHandler(TCDEMO.EVENTS.singleTap, onSingleTap);   
-            }, scenarioInfo.surroundings.length);
+            }, scenarioInfo.surroundings.length));
         }
     };
 
@@ -129,6 +136,7 @@ function Scenario1 () {
 
         audioCtrl.stop();
 
+        clearActiveTimeouts();
         destroyEventHandlers();
         eventsCtrl.stopScenario();
 
