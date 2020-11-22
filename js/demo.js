@@ -84,8 +84,7 @@ function Demo () {
 
     // START TEST
     $(document).ready(function () {
-       // showScene(scenes.welcome.elementId);
-       showScene(scenes.instructions3.elementId);
+       showScene(scenes.welcome.elementId);
     });
    
     // EXIT TEST
