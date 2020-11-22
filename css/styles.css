@@ -101,11 +101,13 @@ button.skip {
   margin: 0 auto;
   width: 97%;
 }
-#instructions2.intermission p.trigger-survey {
+#instructions2.intermission p.trigger-survey,
+#instructions4.intermission p.trigger-survey {
   font-style: italic;
   margin: 2rem auto;
 }
-#instructions2.intermission p.trigger-survey:last-child {
+#instructions2.intermission p.trigger-survey:last-child,
+#instructions4.intermission p.trigger-survey:last-child {
   margin-bottom: 3rem;
 }
 .intermission .button-container {
@@ -116,7 +118,8 @@ button.skip {
 .intermission .button-container button:first-child {
   margin-right: 3.5rem;
 }
-#instructions2.intermission .button-container {
+#instructions2.intermission .button-container,
+#instructions4.intermission .button-container {
   margin-top: 5%;
 }
 
