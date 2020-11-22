@@ -174,26 +174,34 @@ function Onboarding () {
         activeTimeouts.push(setTimeout(nextStep, steps[currentStep - 1].length + 1000));
     };
 
-    function stopOnboarding () {
-        audioController.play(audiosOther.onboardingEnd.audioSrc, true);
-        setTimeout(() => {
-            clearActiveInterval();
-            clearActiveTimeouts();
+    function dismantleOnboarding() {
+        clearActiveInterval();
+        clearActiveTimeouts();
 
-            $(document).off(TCDEMO.AUDIO.audioEndedEvent, (data) => onLongAudioStopped(data));
+        $(document).off(TCDEMO.AUDIO.audioEndedEvent, (data) => onLongAudioStopped(data));
 
-            parallaxOnboarding.disable();
-            parallaxOnboarding.destroy();
+        parallaxOnboarding.disable();
+        parallaxOnboarding.destroy();
 
-            eventsController.stopScenario();
-            audioController.stop();
-            
-            $onboardingElem.addClass('hide');
+        eventsController.stopScenario();
+        audioController.stop();
+        
+        $onboardingElem.addClass('hide');
 
-            $.event.trigger({ 
-                type: TCDEMO.ONBOARDING.finishedEvent
-            });
-        }, audiosOther.onboardingEnd.length + 4000);        
+        $.event.trigger({ 
+            type: TCDEMO.ONBOARDING.finishedEvent
+        });
+    };
+    function stopOnboarding (hardStop) {
+        if (!hardStop) hardStop = false;
+
+        if (!hardStop) {
+            audioController.play(audiosOther.onboardingEnd.audioSrc, true);
+
+            setTimeout(dismantleOnboarding, audiosOther.onboardingEnd.length + 4000);             
+        } else {
+            dismantleOnboarding();
+        }      
     };
 
     function reminderCallback (flagHappened) {

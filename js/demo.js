@@ -88,7 +88,8 @@ function Demo () {
 
     // START TEST
     $(document).ready(function () {
-       showScene(scenes.welcome.elementId, scenes.welcome.audioSrc);
+        audioCtrl.setup();
+        showScene(scenes.welcome.elementId, scenes.welcome.audioSrc);
     });
    
     // EXIT TEST
@@ -110,7 +111,7 @@ function Demo () {
     // SKIP ONBOARDING
     var skipOnboardingBtn = $('#skipOnboarding');
     skipOnboardingBtn.on('click', function () {
-        onboardingCtrl.stop();
+        onboardingCtrl.stop(true);
     });
 
 
