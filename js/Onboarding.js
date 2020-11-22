@@ -158,7 +158,8 @@ function Onboarding () {
 
     function startOnboarding() {
         $onboardingElem.removeClass('hide');
-        eventsController.setupScenario(onboardingElemId);
+        eventsController.setupScenario(onboardingElemId);        
+        audioController.setup();
         currentStep = 1;
         
         // set up parallax
@@ -174,24 +175,25 @@ function Onboarding () {
     };
 
     function stopOnboarding () {
-        // audioController.play(audiosOther.onboardingEnd.audioSrc);
-        // setTimeout(eventsController.stopScenario, audiosOther.onboardingEnd.length);
+        audioController.play(audiosOther.onboardingEnd.audioSrc, true);
+        setTimeout(() => {
+            clearActiveInterval();
+            clearActiveTimeouts();
 
-        audioController.stop();
-        clearActiveInterval();
-        clearActiveTimeouts();
-        $(document).off(TCDEMO.AUDIO.audioEndedEvent, (data) => onLongAudioStopped(data));
+            $(document).off(TCDEMO.AUDIO.audioEndedEvent, (data) => onLongAudioStopped(data));
 
-        parallaxOnboarding.disable();
-        parallaxOnboarding.destroy();
+            parallaxOnboarding.disable();
+            parallaxOnboarding.destroy();
 
-        eventsController.stopScenario();
-        
-        $onboardingElem.addClass('hide');
+            eventsController.stopScenario();
+            audioController.stop();
+            
+            $onboardingElem.addClass('hide');
 
-        $.event.trigger({ 
-            type: TCDEMO.ONBOARDING.finishedEvent
-        });
+            $.event.trigger({ 
+                type: TCDEMO.ONBOARDING.finishedEvent
+            });
+        }, audiosOther.onboardingEnd.length + 4000);        
     };
 
     function reminderCallback (flagHappened) {
@@ -399,14 +401,9 @@ function Onboarding () {
                     // play audio to test pausing and resuming
                     audioController.play(audiosOther.longAudio.audioSrc);
                     
-                    $(document).on(TCDEMO.AUDIO.audioEndedEvent, (data) => onLongAudioStopped(data));
+                    $(document).on(TCDEMO.AUDIO.audioEndedEvent, (data) => onLongAudioStopped(data));                    
 
-                    
-                    // // move to the next step when audio finishes
-                    // activeTimeouts.push(setTimeout(nextStep, audiosOther.longAudio.length + 4000));
-
-                }, steps[currentStep - 1].length + 3000));  
-                               
+                }, steps[currentStep - 1].length + 3000));                                
               
                 break;  
             default:
