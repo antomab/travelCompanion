@@ -166,7 +166,7 @@ button.skip {
 }
 @media (orientation: landscape) {
   #menu {
-    width: 44%;
+    width: 68%;
   }
 }
 #menu #tns1-iw {
@@ -189,11 +189,11 @@ button.skip {
 /* smartphones */
 @media (min-width:320px) {
   #menu #tns1-iw {
-    margin-top: 5.7rem;
+    margin-top: 7.5rem;
   }
   #menu .menu-item {
-    height: 5rem;
-    margin: .7rem 0;
+    height: 6rem;
+    margin: 1.5rem 0;
   }
 }
 
