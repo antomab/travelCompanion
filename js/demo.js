@@ -41,6 +41,11 @@ function Demo () {
             audioSrc: '',
             length: 0
         },
+        instructions4: {
+            elementId: 'instructions4',
+            audioSrc: '',
+            length: 0
+        },
         end: {
             elementId: 'endTest',
             audioSrc: '',
@@ -154,7 +159,7 @@ function Demo () {
     });    
     $(document).on(TCDEMO.SCENARIO2.finishedEvent, (data) => {
         hideScene(scenes.scenario2.elementId);
-        showScene(scenes.end.elementId);
+        showScene(scenes.instructions4.elementId);
     });
 
     
