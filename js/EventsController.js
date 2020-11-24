@@ -137,7 +137,7 @@ function EventsController() {
     function setupDoubleClickEvent(callback) {
         //$(scenario).dblclick(callback);
 
-        if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+        //if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
             var touchtime = 0;
             $(scenario).on("click", function () {
                 if (touchtime == 0) {
@@ -155,7 +155,7 @@ function EventsController() {
                     }
                 }
             });
-        }
+       // }
     };
 
     function start(elementId) {
