@@ -63,19 +63,26 @@ SCENARIOS
 button.secondary {
   background-color: #ff7b47;
 }
+.intermission button {
+  font-size: 1.6rem;;
+}
 .skip {
   position: fixed;
   bottom: 0;
   right: 0;
 }
 button.skip {
-  font-size: 2rem;
-  padding: 2rem;
+  font-size: 1rem;
+  padding: 1rem;
 }
  #onboarding, 
  #scenario1 {
    position: absolute;
    top: 0;
+ }
+ .intermission,
+ .scene {
+   box-sizing: border-box;
  }
  
 .intermission {
@@ -139,7 +146,7 @@ button.skip {
     margin: 0;
 }
 .scene {
-    min-height: 46rem;
+    min-height: 26rem;
     position: relative;
     overflow: hidden;
     width: 100%;
@@ -324,4 +331,27 @@ button.skip {
 
 @-webkit-keyframes slide-in {
     100% {-webkit-transform: scaleX(1) scaleY(1); }
+}
+
+
+ /* CSS specific to iOS devices */ 
+@supports (-webkit-touch-callout: none) {
+  button {
+    padding: 1.2rem;
+    font-size: 1.6rem;
+  }
+ .intermission h1 {
+   font-size: 2.2rem;
+ }
+ .intermission p {
+   font-size: 1.8rem;
+   margin: auto;
+ }
+ .intermission .button-container button:first-child {
+   margin-right: 1.5rem;
+ }
+ .badge-menu {
+   height: 15%;
+   width: 17%;
+ }
 }

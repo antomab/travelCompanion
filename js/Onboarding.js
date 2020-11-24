@@ -2,7 +2,7 @@ var TCDEMO = TCDEMO || {};
 TCDEMO.ONBOARDING = {
     finishedEvent: 'onboarding::finished'
 };
-function Onboarding () {
+function Onboarding() {
     var onboardingElemId = 'onboarding';
     var onboardingElem = document.getElementById(onboardingElemId);
     var $onboardingElem = $('#' + onboardingElemId);
@@ -10,7 +10,7 @@ function Onboarding () {
     var activeIntervalId;
     var activeTimeouts = [];
     var audioController = new AudioController();
-    var eventsController = new EventsController();    
+    var eventsController = new EventsController();
     var menuCtrl = new MenuController();
 
     var badgeMenuInfo = {
@@ -27,12 +27,12 @@ function Onboarding () {
     var badgeMenuItems = [
         {
             index: 0,
-            description: 'first item',            
+            description: 'first item',
             itemSelector: '.badge-1',
             toSelector: '.to1',
             slideOut: 'slide-out-158',
             slideIn: 'slide-in',
-            audio: {                
+            audio: {
                 onActive: {
                     audioSrc: 'assets/audios/onboarding/badgeFirstItem.mp3',
                     length: 100
@@ -50,7 +50,7 @@ function Onboarding () {
             toSelector: '.to2',
             slideOut: 'slide-out-6A',
             slideIn: 'slide-in',
-            audio: {                
+            audio: {
                 onActive: {
                     audioSrc: 'assets/audios/onboarding/badgeSecondItem.mp3',
                     length: 100,
@@ -139,29 +139,29 @@ function Onboarding () {
         }
     }
 
-    function playCurrentStepAudio (withPause) {
-        if (typeof(withPause) === 'undefined') withPause = false;
+    function playCurrentStepAudio(withPause) {
+        if (typeof (withPause) === 'undefined') withPause = false;
 
         audioController.play(steps[currentStep - 1].audioSrc, withPause);
     };
 
-    function clearActiveInterval () {
+    function clearActiveInterval() {
         clearInterval(activeIntervalId);
         activeIntervalId = null;
     };
 
-    function clearActiveTimeouts () {
-        for (var i=0; i<activeTimeouts.length; i++) {
+    function clearActiveTimeouts() {
+        for (var i = 0; i < activeTimeouts.length; i++) {
             clearTimeout(activeTimeouts[i]);
         }
     }
 
     function startOnboarding() {
         $onboardingElem.removeClass('hide');
-        eventsController.setupScenario(onboardingElemId);        
+        eventsController.setupScenario(onboardingElemId);
         audioController.setup();
         currentStep = 1;
-        
+
         // set up parallax
         parallaxOnboarding = new Parallax(onboardingElem, {
             relativeInput: true,
@@ -185,32 +185,32 @@ function Onboarding () {
 
         eventsController.stopScenario();
         audioController.stop();
-        
+
         $onboardingElem.addClass('hide');
 
-        $.event.trigger({ 
+        $.event.trigger({
             type: TCDEMO.ONBOARDING.finishedEvent
         });
     };
-    function stopOnboarding (hardStop) {
+    function stopOnboarding(hardStop) {
         if (!hardStop) hardStop = false;
 
         if (!hardStop) {
             audioController.play(audiosOther.onboardingEnd.audioSrc, true);
 
-            setTimeout(dismantleOnboarding, audiosOther.onboardingEnd.length + 4000);             
+            setTimeout(dismantleOnboarding, audiosOther.onboardingEnd.length + 4000);
         } else {
             dismantleOnboarding();
-        }      
+        }
     };
 
-    function reminderCallback (flagHappened) {
+    function reminderCallback(flagHappened) {
         if (!flagHappened) {
             playCurrentStepAudio();
         }
     };
 
-    function onCardTapCallback (liveCard) {                        
+    function onCardTapCallback(liveCard) {
         clearActiveInterval();
 
         // play live-card audio
@@ -222,7 +222,7 @@ function Onboarding () {
         // allow audio to play out before hiding again
         activeTimeouts.push(setTimeout(() => liveCardFinalizeCallback(liveCard), audiosOther.liveCard.length + 3000));
     };
-    function liveCardFinalizeCallback (element) {
+    function liveCardFinalizeCallback(element) {
         // hide live-card
         element.addClass('hide');
 
@@ -230,13 +230,13 @@ function Onboarding () {
         nextStep();
     };
 
-    function onDoubleTapCallback () {
+    function onDoubleTapCallback() {
         clearActiveInterval();
 
         if (!menuCtrl.isOpen()) {
             // show menu 
-            menuCtrl.open();      
-            
+            menuCtrl.open();
+
             // move to step 5
             currentStep = 4;
         } else {
@@ -249,8 +249,8 @@ function Onboarding () {
 
         nextStep();
     };
-    
-    function onDescriptionPressCallback () {
+
+    function onDescriptionPressCallback() {
         clearActiveInterval();
 
         // play surroundings audio
@@ -260,134 +260,136 @@ function Onboarding () {
         activeTimeouts.push(setTimeout(nextStep, audiosOther.surroundings.length + 2000));
     };
 
-    function onTwoFingerTapCallback () {
+    function onTwoFingerTapCallback() {
         // pause/resume audio
         audioController.toggle();
     };
 
-    function onBadgeTapCallback () {
+    function onBadgeTapCallback() {
         clearActiveInterval();
 
         if (!badgeMenuCtrl.isActive()) {
             badgeMenuCtrl.activate();
-        } else {                        
+        } else {
             // remove all badge menu handlers
             eventsController.removeHandler(TCDEMO.EVENTS.singleTap, onBadgeTapCallback);
-            eventsController.removeHandler(TCDEMO.EVENTS.swipe, (ev) => onBadgeSwipeCallback(ev));                
-            eventsController.removeHandler(TCDEMO.EVENTS.press, onBadgePressCallback); 
+            eventsController.removeHandler(TCDEMO.EVENTS.swipe, (ev) => onBadgeSwipeCallback(ev));
+            eventsController.removeHandler(TCDEMO.EVENTS.press, onBadgePressCallback);
 
             // hide badge menu
-            badgeMenuCtrl.hide();            
+            badgeMenuCtrl.hide();
 
             // move to the next step
             activeTimeouts.push(setTimeout(nextStep, badgeMenuInfo.onMenuClosed.length + 2000));
         }
     };
-    function onBadgeSwipeCallback (event) {
+    function onBadgeSwipeCallback(event) {
         if (event.additionalEvent === TCDEMO.EVENTS.swipeDown) {
             badgeMenuCtrl.activateSecond();
         } else if (event.additionalEvent === TCDEMO.EVENTS.swipeUp) {
             badgeMenuCtrl.activateFirst();
         }
     };
-    function onBadgePressCallback () {
+    function onBadgePressCallback() {
         if (badgeMenuCtrl.isActive()) {
             var activeItem = badgeMenuCtrl.getActive();
             audioController.play(activeItem.audio.onSelected.audioSrc, false);
-        } 
+        }
     };
-    function onLongAudioStopped (data) {
+    function onLongAudioStopped(data) {
         if (data.audioSrc === audiosOther.longAudio.audioSrc) {
             // move to the next step when audio finishes
             nextStep();
-        }                    
+        }
     };
 
-    function nextStep () {
+    function nextStep() {
         currentStep += 1;
 
-        switch (currentStep) {            
-            case 2: 
+        switch (currentStep) {
+            case 2:
                 var wasTapped = false;
                 var liveCard = $onboardingElem.find('.' + steps[currentStep - 1].element);
 
                 // set up Tap event
                 eventsController.setupEvent(TCDEMO.EVENTS.singleTap);
-                eventsController.setupHandler(TCDEMO.EVENTS.singleTap, () => onCardTapCallback(liveCard));                
+                eventsController.setupHandler(TCDEMO.EVENTS.singleTap, () => onCardTapCallback(liveCard));
 
                 // play instructions
                 playCurrentStepAudio(true);
 
                 // allow instructions to start playing before continuing
                 activeTimeouts.push(setTimeout(function () {
-                    
+
                     // show live card sample, with chime                
                     liveCard.removeClass('hide');
                     audioController.play(audiosOther.chime.audioSrc);
-                    
+
                     // play a reminder to Tap if nothing happens after every 5s
                     activeIntervalId = setInterval(() => reminderCallback(wasTapped), 10000);
-                
+
                 }, steps[currentStep - 1].length + 3000));
 
                 break;
             case 3:
                 var wasTapped = false;
                 var badgeMenu = $onboardingElem.find('.' + steps[currentStep - 1].element);
-                
+
                 // set up events
                 eventsController.setupEvent(TCDEMO.EVENTS.singleTap);
                 eventsController.setupEvent(TCDEMO.EVENTS.swipe);
                 eventsController.setupEvent(TCDEMO.EVENTS.press);
-                eventsController.setupHandler(TCDEMO.EVENTS.singleTap, onBadgeTapCallback);        
-                eventsController.setupHandler(TCDEMO.EVENTS.swipe, (ev) => onBadgeSwipeCallback(ev));                
-                eventsController.setupHandler(TCDEMO.EVENTS.press, onBadgePressCallback); 
+                eventsController.setupHandler(TCDEMO.EVENTS.singleTap, onBadgeTapCallback);
+                eventsController.setupHandler(TCDEMO.EVENTS.swipe, (ev) => onBadgeSwipeCallback(ev));
+                eventsController.setupHandler(TCDEMO.EVENTS.press, onBadgePressCallback);
 
                 // play instructions
                 playCurrentStepAudio(true);
 
                 // allow instructions to start playing before continuing
                 activeTimeouts.push(setTimeout(function () {
-                    
+
                     // show badge menu sample
                     badgeMenuCtrl.show();
-                    
+
                     // play a reminder to Tap if nothing happens after every 5s
                     activeIntervalId = setInterval(() => reminderCallback(wasTapped), 10000);
-                
+
                 }, steps[currentStep - 1].length + 5000));
-                
+
                 break;
-            case 4:  
+            case 4:
                 var wasDoubleTapped = false;
 
                 // set up double-tap event to bring up menu
-                eventsController.setupDoubleClick(function () { 
+                eventsController.setupDoubleClick(function () {
                     onDoubleTapCallback()
                 });
+
+
 
                 // play instructions
                 playCurrentStepAudio();
 
                 // play a reminder to Double Tap if nothing happens after every 5s
-                activeIntervalId = setInterval(function () { 
-                    reminderCallback(wasDoubleTapped) 
-                }, 10000);                   
-                
+                activeIntervalId = setInterval(function () {
+                    reminderCallback(wasDoubleTapped)
+                }, 10000);
+
                 break;
-            case 5:  
+            case 5:
                 if (menuCtrl.isOpen()) {
                     // play instructions 
-                    playCurrentStepAudio(); 
-                } 
+                    playCurrentStepAudio();
+                }
                 break;
-            case 6:  
+            case 6:
                 var wasPressed = false;
 
                 // set up Press event
                 eventsController.setupEvent(TCDEMO.EVENTS.press);
-                eventsController.setupHandler(TCDEMO.EVENTS.press, onDescriptionPressCallback); 
-                
+                eventsController.setupHandler(TCDEMO.EVENTS.press, onDescriptionPressCallback);
+
                 // play instructions
                 playCurrentStepAudio(true);
 
@@ -395,25 +397,25 @@ function Onboarding () {
                 activeIntervalId = setInterval(() => reminderCallback(wasPressed), 10000);
 
                 break;
-            case 7: 
+            case 7:
                 // set up TwoFingerTap event
                 eventsController.setupEvent(TCDEMO.EVENTS.twoFingerTap);
                 eventsController.setupHandler(TCDEMO.EVENTS.twoFingerTap, onTwoFingerTapCallback);
-                
+
                 // play instructions
                 playCurrentStepAudio();
 
                 // allow instructions to start playing before continuing
-                activeTimeouts.push(setTimeout(function () {                                    
-                
+                activeTimeouts.push(setTimeout(function () {
+
                     // play audio to test pausing and resuming
                     audioController.play(audiosOther.longAudio.audioSrc);
-                    
-                    $(document).on(TCDEMO.AUDIO.audioEndedEvent, (data) => onLongAudioStopped(data));                    
 
-                }, steps[currentStep - 1].length + 3000));                                
-              
-                break;  
+                    $(document).on(TCDEMO.AUDIO.audioEndedEvent, (data) => onLongAudioStopped(data));
+
+                }, steps[currentStep - 1].length + 3000));
+
+                break;
             default:
                 stopOnboarding();
                 break;

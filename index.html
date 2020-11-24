@@ -1,177 +1,182 @@
 <!DOCTYPE html>
 <html>
-	<head>
-        <meta charset="utf-8">
-        <meta name="msapplication-tap-highlight" content="no" />
 
-        <link rel="stylesheet" href="css/styles.css" />
-        <link rel="stylesheet" href="css/tiny-slider.css" />
+<head>
+  <meta charset="utf-8">
+  <meta name="msapplication-tap-highlight" content="no" />
 
-		<title>Travel Companion</title>
-		<style>
-            body {
-                margin: 0px;
-                background-color: #000000;
-                overflow: hidden;
-            }
-		</style>
-	</head>
-	<body>
-    <audio id="audio" class="hide" crossOrigin="anonymous"></audio>
-    
-    <div id="welcome" class="intermission welcome hide">
-      <h1>Welcome to the Travel Companion test!</h1>
-      <p>We'll guide you through a quick on-boarding process, followed by two short scenarios.</p>
-           
-      <div class="button-container">
-        <button id="onboardingStart" class="start">Start On-Boarding</button>
-        <button class="quit secondary">Exit Test</button>
-      </div>      
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/tiny-slider.css" />
+
+  <title>Travel Companion</title>
+  <style>
+    body {
+      margin: 0px;
+      background-color: #000000;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <audio id="audio" class="hide" crossOrigin="anonymous"></audio>
+
+  <div id="welcome" class="intermission welcome hide">
+    <h1>Welcome to the Travel Companion test!</h1>
+    <p>We'll guide you through a quick on-boarding process, followed by two short scenarios.</p>
+
+    <div class="button-container">
+      <button id="onboardingStart" class="start">Start On-Boarding</button>
+      <button class="quit secondary">Exit Test</button>
     </div>
+  </div>
 
 
-    <div id="onboarding" class="scene hide" data-limit-x="160" data-limit-y="160">
-      <div id="o_main" class="background-img layer" data-depth="0.6">
-        <img src="assets/onboarding/background-onboarding.png" />
-      </div>      
-      <div class="live-card center-screen hide" data-depth="0.4">
-        <img src="assets/onboarding/sampleBadge.png" />
-      </div>
-      <div id="badgeMenuOnboarding" class="badge-menu badge-menu-onboarding hide" data-depth="0.4">
-        <div class="badge-menu-container">
-         <div class="badge-menu-item badge-1" data-index="0">
-           <img class="badge-to to1" src="assets/onboarding/firstItemInfo.png">
-           <img class="badge-number" src="assets/onboarding/1.png">
-         </div>
-         <div class="badge-menu-item badge-2" data-index="1">       
-           <img class="badge-to to2" src="assets/onboarding/secondItemInfo.png">
-           <img class="badge-number" src="assets/onboarding/2.png"> 
-         </div>
-       </div>
-     </div>    
+  <div id="onboarding" class="scene hide" data-limit-x="160" data-limit-y="160">
+    <div id="o_main" class="background-img layer" data-depth="0.6">
+      <img src="assets/onboarding/background-onboarding.png" />
     </div>
-    <button id="skipOnboarding" class="skip hide">Skip Onboarding</button>
-
-
-    <div id="instructions1" class="intermission instructions hide">
-      <h1>Scenario #1 - At the bus stop</h1>
-      <p>You've just arrived at the bus stop and the assistant informs you of the buses 
-        you can take in order to get to your destination.</p>
-      <p>With the gestures you just learned, try to find out where each bus is bound to, and select one when you're ready to "board".</p>
-
-      <div class="button-container">
-        <button id="scenario1Start" class="start">Start Scenario #1</button>      
-        <button class="quit">Exit Test</button>
+    <div class="live-card center-screen hide" data-depth="0.4">
+      <img src="assets/onboarding/sampleBadge.png" />
+    </div>
+    <div id="badgeMenuOnboarding" class="badge-menu badge-menu-onboarding hide" data-depth="0.4">
+      <div class="badge-menu-container">
+        <div class="badge-menu-item badge-1" data-index="0">
+          <img class="badge-to to1" src="assets/onboarding/firstItemInfo.png">
+          <img class="badge-number" src="assets/onboarding/1.png">
+        </div>
+        <div class="badge-menu-item badge-2" data-index="1">
+          <img class="badge-to to2" src="assets/onboarding/secondItemInfo.png">
+          <img class="badge-number" src="assets/onboarding/2.png">
+        </div>
       </div>
     </div>
+  </div>
+  <button id="skipOnboarding" class="skip hide">Skip Onboarding</button>
 
-    <div id="scenario1" class="scene hide"  data-limit-x="160" data-limit-y="160">
-        <div id="sc1_main" class="container background-img layer" data-depth="0.6">
-          <img src="assets/scenario1/BusStop.png"/>.
-        </div>     
+
+  <div id="instructions1" class="intermission instructions hide">
+    <h1>Scenario #1 - At the bus stop</h1>
+    <p>You've just arrived at the bus stop and the assistant informs you of the buses
+      you can take in order to get to your destination.</p>
+    <p>With the gestures you just learned, try to find out where each bus is bound to, and select one when you're ready
+      to "board".</p>
+
+    <div class="button-container">
+      <button id="scenario1Start" class="start">Start Scenario #1</button>
+      <button class="quit">Exit Test</button>
     </div>
-    <button id="skipScenario1" class="skip hide">End Scenario #1</button>   
-    
-    <div id="instructions2" class="intermission survey hide">
-      <h1>Scenario #1 Complete!</h1>
-      <p>We have a few questions about the task you just completed. 
-        It should only take 1 or 2 minutes. To start the survey use your phone assistant and say:</p>
-      
-      <p class="trigger-survey">"Alexa/Google, Launch SurveyLine."</p>
-      <p>And when prompted, say the name of the survey: </p>
-      
-      <p class="trigger-survey">"Travel Companion One"</p>
+  </div>
 
-      <p class="end">When you're ready, move on to the next scenario.</p>
-
-      <div class="button-container">
-        <button id="showInstructions3" class="start">Start Scenario #2</button>      
-        <button class="quit">Exit Test</button>
-      </div>      
+  <div id="scenario1" class="scene hide" data-limit-x="160" data-limit-y="160">
+    <div id="sc1_main" class="container background-img layer" data-depth="0.6">
+      <img src="assets/scenario1/BusStop.jpg" />
     </div>
+  </div>
+  <button id="skipScenario1" class="skip hide">End Scenario #1</button>
 
-    <div id="instructions3" class="intermission instructions hide">
-      <h1>Scenario #2 - Following a Walking Guide</h1>
-      <p>You are walking around a piazza in Rome, following your walking guide tour.
+  <div id="instructions2" class="intermission survey hide">
+    <h1>Scenario #1 Complete!</h1>
+    <p>We have a few questions about the task you just completed.
+      It should only take 1 or 2 minutes. To start the survey use your phone assistant and say:</p>
+
+    <p class="trigger-survey">"Alexa/Google, Launch SurveyLine."</p>
+    <p>And when prompted, say the name of the survey: </p>
+
+    <p class="trigger-survey">"Travel Companion One"</p>
+
+    <p class="end">When you're ready, move on to the next scenario.</p>
+
+    <div class="button-container">
+      <button id="showInstructions3" class="start">Start Scenario #2</button>
+      <button class="quit">Exit Test</button>
+    </div>
+  </div>
+
+  <div id="instructions3" class="intermission instructions hide">
+    <h1>Scenario #2 - Following a Walking Guide</h1>
+    <p>You are walking around a piazza in Rome, following your walking guide tour.
       Explore your surroundings and try to learn more about the buildings in front of you.</p>
-      <p>When you're finished, exit the walking guide by calling up the menu and selecting "Exit Navigation".</p>
+    <p>When you're finished, exit the walking guide by calling up the menu and selecting "Exit Navigation".</p>
 
-      <div class="button-container">
-        <button id="scenario2Start" class="start">Start Scenario #2</button>      
-        <button class="quit">Exit Test</button>
+    <div class="button-container">
+      <button id="scenario2Start" class="start">Start Scenario #2</button>
+      <button class="quit">Exit Test</button>
+    </div>
+  </div>
+
+  <div id="scenario2" class="scene hide" data-limit-x="160" data-limit-y="160">
+    <div id="sc2_main" class="container background-img layer" data-depth="0.6">
+      <img src="assets/scenario2/background.png" />.
+    </div>
+    <div class="live-card hide" data-depth="0.4">
+      <img src="assets/scenario2/twinChurchesBadgeConnector.png" />
+    </div>
+  </div>
+  <button id="skipScenario2" class="skip hide">End Scenario #2</button>
+
+
+  <div id="instructions4" class="intermission survey hide">
+    <h1>Scenario #2 Complete!</h1>
+    <p>You have completed the Travel Companion test. Before you leave, we have a few more
+      questions about the test. To start the survey use your phone assistant and say:</p>
+
+    <p class="trigger-survey">"Alexa/Google, Launch SurveyLine."</p>
+    <p>And when prompted, say the name of the survey: </p>
+
+    <p class="trigger-survey">"Travel Companion <b>Two</b>"</p>
+
+    <div class="button-container">
+      <button class="quit">Finish Test</button>
+    </div>
+  </div>
+
+  <div id="endTest" class="intermission final hide">
+    <p>Thank you for taking part in this test!</p>
+  </div>
+
+  <div id="menu" class="menu center-screen hide">
+    <div class="menu-tiny-slider">
+      <div class="menu-item" data-index="0"><img src="assets/menu/menu_camera.png"></div>
+      <div class="menu-item" data-index="1"><img src="assets/menu/menu_landmarks.png"></div>
+      <div class="menu-item" data-index="2"><img src="assets/menu/menu_restaurants.png"></div>
+      <div class="menu-item" data-index="3"><img src="assets/menu/menu_exitNav.png"></div>
+      <div class="menu-item" data-index="4"><img src="assets/menu/menu_stories.png"></div>
+    </div>
+  </div>
+
+  <div id="badgeMenu" class="badge-menu hide" data-depth="0.4">
+    <div class="badge-menu-container">
+      <div class="badge-menu-item badge-158" data-index="0">
+        <img class="badge-to to158" src="assets/badgeMenu/To158.png">
+        <img class="badge-number" src="assets/badgeMenu/158.png">
+      </div>
+      <div class="badge-menu-item badge-6A" data-index="1">
+        <img class="badge-to to6A" src="assets/badgeMenu/To6A.png">
+        <img class="badge-number" src="assets/badgeMenu/6A.png">
       </div>
     </div>
-
-    <div id="scenario2" class="scene hide"  data-limit-x="160" data-limit-y="160">
-        <div id="sc2_main" class="container background-img layer" data-depth="0.6">
-          <img src="assets/scenario2/background.png"/>.
-        </div>        
-        <div class="live-card hide" data-depth="0.4">
-          <img src="assets/scenario2/twinChurchesBadgeConnector.png" />
-        </div>
-    </div>
-    <button id="skipScenario2" class="skip hide">End Scenario #2</button>   
-
-    
-    <div id="instructions4" class="intermission survey hide">
-      <h1>Scenario #2 Complete!</h1>
-      <p>You have completed the Travel Companion test. Before you leave, we have a few more 
-        questions about the test. To start the survey use your phone assistant and say:</p>
-      
-      <p class="trigger-survey">"Alexa/Google, Launch SurveyLine."</p>
-      <p>And when prompted, say the name of the survey: </p>
-      
-      <p class="trigger-survey">"Travel Companion <b>Two</b>"</p>
-
-      <div class="button-container">
-        <button class="quit">Finish Test</button>
-      </div>      
-    </div>
-
-    <div id="endTest" class="intermission final hide">      
-      <p>Thank you for taking part in this test!</p>      
-    </div>
-
-    <div id="menu" class="menu center-screen hide">
-      <div class="menu-tiny-slider">
-        <div class="menu-item" data-index="0"><img src="assets/menu/menu_camera.png"></div>
-        <div class="menu-item" data-index="1"><img src="assets/menu/menu_landmarks.png"></div>
-        <div class="menu-item" data-index="2"><img src="assets/menu/menu_restaurants.png"></div>
-        <div class="menu-item" data-index="3"><img src="assets/menu/menu_exitNav.png"></div>
-        <div class="menu-item" data-index="4"><img src="assets/menu/menu_stories.png"></div>
-      </div>
-    </div>
-
-    <div id="badgeMenu" class="badge-menu hide" data-depth="0.4">
-       <div class="badge-menu-container">
-        <div class="badge-menu-item badge-158" data-index="0">
-          <img class="badge-to to158" src="assets/badgeMenu/To158.png">
-          <img class="badge-number" src="assets/badgeMenu/158.png">
-        </div>
-        <div class="badge-menu-item badge-6A" data-index="1">       
-          <img class="badge-to to6A" src="assets/badgeMenu/To6A.png">
-          <img class="badge-number" src="assets/badgeMenu/6A.png"> 
-        </div>
-      </div>
-    </div>
+  </div>
 
 
-        <script src="js/third-party/jquery.min.js"></script>
-        <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
-        <script src="js/third-party/hammer.min.js"></script>
-        <script src="js/third-party/jquery.hammer.js"></script>        
-        <script src="js/third-party/tiny-slider.js"></script>
-        <script src="js/third-party/tiny-slider.helper.ie8.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
-        
-		    <script src="js/EventsController.js" crossOrigin="anonymous"></script>
-		    <script src="js/AudioController.js" crossOrigin="anonymous"></script>
-        <script src="js/MenuController.js" crossOrigin="anonymous"></script>
-        <script src="js/BadgeMenuController.js" crossorigin="anonymous"></script>
-        <script src="js/Onboarding.js" crossOrigin="anonymous"></script>
-        <script src="js/Scenario1.js" crossorigin="anonymous"></script>
-        <script src="js/Scenario2.js" crossorigin="anonymous"></script>
-		    <script src="js/demo.js" crossOrigin="anonymous"></script>
-	</body>
+  <script src="js/third-party/jquery.min.js"></script>
+  <script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js'></script>
+  <script src="js/third-party/hammer.min.js"></script>
+  <script src="js/third-party/jquery.hammer.js"></script>
+  <script src="js/third-party/tiny-slider.js"></script>
+  <script src="js/third-party/tiny-slider.helper.ie8.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/parallax/3.1.0/parallax.min.js"></script>
+
+  <script src="js/EventsController.js" crossOrigin="anonymous"></script>
+  <script src="js/AudioController.js" crossOrigin="anonymous"></script>
+  <script src="js/MenuController.js" crossOrigin="anonymous"></script>
+  <script src="js/BadgeMenuController.js" crossorigin="anonymous"></script>
+  <script src="js/Onboarding.js" crossOrigin="anonymous"></script>
+  <script src="js/Scenario1.js" crossorigin="anonymous"></script>
+  <script src="js/Scenario2.js" crossorigin="anonymous"></script>
+  <script src="js/demo.js" crossOrigin="anonymous"></script>
+</body>
+
 </html>
-

@@ -7,36 +7,36 @@ TCDEMO.SCENARIO1 = {
     finishedEvent: 'scenario1::finished'
 };
 
-function Scenario1 () {
+function Scenario1() {
     var $scenario;
     var activeTimeouts = [];
     var parallaxScenario1;
     var audioCtrl = new AudioController();
     var eventsCtrl = new EventsController();
-    var menuCtrl = new MenuController();    
+    var menuCtrl = new MenuController();
     var badgeMenuCtrl = new BadgeMenuController();
 
     var scenarioInfo = {
         selectorId: 'scenario1',
         surroundings: {
             audioSrc: 'assets/audios/scenario1/surroundings.mp3',
-            length: 4000
+            length: 6000
         },
         onArrival: {
             audioSrc: 'assets/audios/scenario1/onArrival.mp3',
             length: 7000
         }
     };
-    
-    function clearActiveTimeouts () {
-        for (var i=0; i<activeTimeouts.length; i++) {
+
+    function clearActiveTimeouts() {
+        for (var i = 0; i < activeTimeouts.length; i++) {
             clearTimeout(activeTimeouts[i]);
         }
     };
 
     // single tap to activate badge (select 1st item) or
     // to exit badge if already active
-    function onSingleTap () {
+    function onSingleTap() {
         if (badgeMenuCtrl.isActive()) {
             badgeMenuCtrl.deactivate();
         } else {
@@ -45,13 +45,13 @@ function Scenario1 () {
     };
 
     // Show menu on double tap 
-    function onDoubleTap () {
+    function onDoubleTap() {
         if (!menuCtrl.isOpen()) {
             // deactivate all other events, but double tap
-            destroyEventHandlers();       
-            eventsCtrl.setupHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);   
+            destroyEventHandlers();
+            eventsCtrl.setupHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);
 
-            menuCtrl.open();                      
+            menuCtrl.open();
         } else {
             menuCtrl.close();
 
@@ -61,13 +61,13 @@ function Scenario1 () {
     };
 
     // Pause audio
-    function onTwoFingerTap () {
+    function onTwoFingerTap() {
         audioCtrl.toggle();
     }
 
     // Swipe down to select 2nd item        
     // Swipe up to select 1st item again
-    function onSwipe (event) {
+    function onSwipe(event) {
         if (event.additionalEvent === TCDEMO.EVENTS.swipeDown) {
             badgeMenuCtrl.activateSecond();
         } else if (event.additionalEvent === TCDEMO.EVENTS.swipeUp) {
@@ -77,7 +77,7 @@ function Scenario1 () {
 
     // If badgeMenu is active, Hold will select active item
     // If badgeMenu is NOT active, Hold will describe surroundings
-    function onPress () {
+    function onPress() {
         if (badgeMenuCtrl.isActive()) {
             var activeItem = badgeMenuCtrl.getActive();
             audioCtrl.play(activeItem.audio.onSelected.audioSrc, false);
@@ -85,41 +85,41 @@ function Scenario1 () {
             activeTimeouts.push(setTimeout(endScenario, activeItem.audio.onSelected.length + 2000));
         } else {
             // pause handler for single tap
-            eventsCtrl.removeHandler(TCDEMO.EVENTS.singleTap, onSingleTap);  
+            eventsCtrl.removeHandler(TCDEMO.EVENTS.singleTap, onSingleTap);
 
             audioCtrl.play(scenarioInfo.surroundings.audioSrc, false);
 
             // resume listening for single tap when audio stops
             activeTimeouts.push(setTimeout(() => {
-                eventsCtrl.setupHandler(TCDEMO.EVENTS.singleTap, onSingleTap);   
+                eventsCtrl.setupHandler(TCDEMO.EVENTS.singleTap, onSingleTap);
             }, scenarioInfo.surroundings.length));
         }
     };
 
-    function setupEventHandlers () {
-        eventsCtrl.setupHandler(TCDEMO.EVENTS.singleTap, onSingleTap);        
-        eventsCtrl.setupHandler(TCDEMO.EVENTS.swipe, (ev) => onSwipe(ev));                
-        eventsCtrl.setupHandler(TCDEMO.EVENTS.press, onPress);                
-        eventsCtrl.setupHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);    
-        eventsCtrl.setupHandler(TCDEMO.EVENTS.twoFingerTap, onTwoFingerTap);    
+    function setupEventHandlers() {
+        eventsCtrl.setupHandler(TCDEMO.EVENTS.singleTap, onSingleTap);
+        eventsCtrl.setupHandler(TCDEMO.EVENTS.swipe, (ev) => onSwipe(ev));
+        eventsCtrl.setupHandler(TCDEMO.EVENTS.press, onPress);
+        eventsCtrl.setupHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);
+        eventsCtrl.setupHandler(TCDEMO.EVENTS.twoFingerTap, onTwoFingerTap);
     };
 
-    function destroyEventHandlers () {
-        eventsCtrl.removeHandler(TCDEMO.EVENTS.singleTap, onSingleTap);        
-        eventsCtrl.removeHandler(TCDEMO.EVENTS.swipe, (ev) => onSwipe(ev));                
-        eventsCtrl.removeHandler(TCDEMO.EVENTS.press, onPress);                
+    function destroyEventHandlers() {
+        eventsCtrl.removeHandler(TCDEMO.EVENTS.singleTap, onSingleTap);
+        eventsCtrl.removeHandler(TCDEMO.EVENTS.swipe, (ev) => onSwipe(ev));
+        eventsCtrl.removeHandler(TCDEMO.EVENTS.press, onPress);
         eventsCtrl.removeHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);
         eventsCtrl.removeHandler(TCDEMO.EVENTS.twoFingerTap, onTwoFingerTap);
     };
 
-    function startScenario () {
+    function startScenario() {
         $scenario = $('#' + scenarioInfo.selectorId);
         $scenario.removeClass('hide');
 
         eventsCtrl.setupScenario(scenarioInfo.selectorId);
         eventsCtrl.setupAllEvents();
         setupEventHandlers();
-        
+
         // set up parallax
         parallaxScenario1 = new Parallax($scenario[0], {
             relativeInput: true,
@@ -132,7 +132,7 @@ function Scenario1 () {
         audioCtrl.play(scenarioInfo.onArrival.audioSrc, false);
     };
 
-    function endScenario () {
+    function endScenario() {
         badgeMenuCtrl.hide();
 
         audioCtrl.stop();
@@ -140,13 +140,13 @@ function Scenario1 () {
         clearActiveTimeouts();
         destroyEventHandlers();
         eventsCtrl.stopScenario();
-        
+
         parallaxScenario1.disable();
         parallaxScenario1.destroy();
 
         $scenario.addClass('hide');
         $scenario = null;
-        
+
         $.event.trigger({
             type: TCDEMO.SCENARIO1.finishedEvent
         });

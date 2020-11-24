@@ -1,4 +1,4 @@
-function Demo () {    
+function Demo() {
     var eventsCtrl = new EventsController();
     var menuCtrl = new MenuController();
     var audioCtrl = new AudioController();
@@ -54,7 +54,7 @@ function Demo () {
         }
     };
 
-    function showScene (elementId, audioSrc) {
+    function showScene(elementId, audioSrc) {
         var $element = $('#' + elementId);
         $element.removeClass('hide');
 
@@ -70,18 +70,18 @@ function Demo () {
         }
     };
 
-    function hideScene (elementId) {
+    function hideScene(elementId) {
         var $element = $('#' + elementId);
         $element.addClass('hide');
-        
+
         // hide skip option, if any
         $(document).find('#' + elementId + ' ~ .skip').addClass('hide');
     };
 
-    function hideAll () {
+    function hideAll() {
         var children = $('body > div');
-        $.map(children, (elem) => $(elem).addClass('hide'));    
-        
+        $.map(children, (elem) => $(elem).addClass('hide'));
+
         var skipButtons = $('.skip');
         $.map(skipButtons, (btn) => $(btn).addClass('hide'));
     }
@@ -91,11 +91,11 @@ function Demo () {
         audioCtrl.setup();
         showScene(scenes.welcome.elementId, scenes.welcome.audioSrc);
     });
-   
+
     // EXIT TEST
     var quitBtn = $('.quit');
     quitBtn.on('click', function () {
-        hideAll();        
+        hideAll();
         showScene(scenes.end.elementId, scenes.end.audioSrc);
     });
 
@@ -105,9 +105,9 @@ function Demo () {
         hideScene(scenes.welcome.elementId);
         showScene(scenes.onboarding.elementId, scenes.onboarding.audioSrc);
 
-        onboardingCtrl.start();        
+        onboardingCtrl.start();
     });
-    
+
     // SKIP ONBOARDING
     var skipOnboardingBtn = $('#skipOnboarding');
     skipOnboardingBtn.on('click', function () {
@@ -116,12 +116,12 @@ function Demo () {
 
 
     // START SCENARIO #1
-    var scenario1Btn =  $('#scenario1Start');
+    var scenario1Btn = $('#scenario1Start');
     scenario1Btn.on('click', function () {
         hideScene(scenes.instructions1.elementId);
         showScene(scenes.scenario1.elementId, scenes.scenario1.audioSrc);
 
-        scenario1Ctrl.start();        
+        scenario1Ctrl.start();
     });
 
     // SKIP SCENARIO #1
@@ -138,12 +138,12 @@ function Demo () {
     });
 
     // START SCENARIO #2
-    var scenario2Btn =  $('#scenario2Start');
+    var scenario2Btn = $('#scenario2Start');
     scenario2Btn.on('click', function () {
         hideScene(scenes.instructions3.elementId);
         showScene(scenes.scenario2.elementId, scenes.scenario2.audioSrc);
- 
-        scenario2Ctrl.start();        
+
+        scenario2Ctrl.start();
     });
 
     // SKIP SCENARIO #2
@@ -160,13 +160,13 @@ function Demo () {
     $(document).on(TCDEMO.SCENARIO1.finishedEvent, (data) => {
         hideScene(scenes.scenario1.elementId);
         showScene(scenes.instructions2.elementId, scenes.instructions2.audioSrc);
-    });    
+    });
     $(document).on(TCDEMO.SCENARIO2.finishedEvent, (data) => {
         hideScene(scenes.scenario2.elementId);
         showScene(scenes.instructions4.elementId, scenes.instructions4.audioSrc);
     });
 
-    
+
     // $(document).on(TCDEMO.MENU.itemChangedEvent, (data) => {
     //     console.log('item changed! ' + data.index);
     // });

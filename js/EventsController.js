@@ -14,52 +14,52 @@ TCDEMO.EVENTS = {
     swipeUp: 'panup'
 };
 
-function EventsController () {    
+function EventsController() {
     var gestures;
     var scenario;
     var isPauseAudioEnabled = false;
 
-    
-    function stopDefaultContextMenu (e) {
+
+    function stopDefaultContextMenu(e) {
         e.preventDefault();
     };
 
-    function canEnableZoom (recognizer, input) {
+    function canEnableZoom(recognizer, input) {
         return !isPauseAudioEnabled;
     };
 
-    function canEnablePauseAudio (recognizer, input) {
+    function canEnablePauseAudio(recognizer, input) {
         return isPauseAudioEnabled;
     };
-   
-    function enableAudioPause () {
+
+    function enableAudioPause() {
         isPauseAudioEnabled = true;
 
         // $(document.body).on("contextmenu", stopDefaultContextMenu);
     };
 
-    function disableAudioPause () {
+    function disableAudioPause() {
         isPauseAudioEnabled = false;
 
         //$(document.body).off("contextmenu", stopDefaultContextMenu);
     };
 
-    function toggleAudioPause () { 
+    function toggleAudioPause() {
         if (isPauseAudioEnabled) {
             disableAudioPause();
         } else {
-            enableAudioPause();    
-        }   
+            enableAudioPause();
+        }
     };
 
-    function setupAllRecognizers () { 
+    function setupAllRecognizers() {
         var singleTap = new Hammer.Tap();
         //var doubleTap = new Hammer.Tap({ event: TCDEMO.EVENTS.doubleTap, taps: 2, interval: 800 });        
-        var twoFingerTap = new Hammer.Tap({ event: TCDEMO.EVENTS.twoFingerTap, taps: 1, pointers: 2, enable: canEnablePauseAudio });        
+        var twoFingerTap = new Hammer.Tap({ event: TCDEMO.EVENTS.twoFingerTap, taps: 1, pointers: 2, enable: canEnablePauseAudio });
         var zoom = new Hammer.Pinch({ event: TCDEMO.EVENTS.pinch, enable: canEnableZoom });
         var hold = new Hammer.Press({ time: 500 });
         var swipe = new Hammer.Pan({ direction: Hammer.DIRECTION_VERTICAL });
-        
+
         // doubleTap.recognizeWith(singleTap);
         // singleTap.requireFailure(doubleTap);                
 
@@ -67,23 +67,24 @@ function EventsController () {
         gestures.add([zoom, hold, swipe, twoFingerTap, singleTap]);
 
         //gestures.get(TCDEMO.EVENTS.doubleTap).dropRequireFailure(TCDEMO.EVENTS.singleTap)
-        
+
     };
-    
-    function setupRecognizer (event) {
+
+    function setupRecognizer(event) {
         switch (event) {
             case TCDEMO.EVENTS.singleTap:
                 gestures.add(new Hammer.Tap());
                 break;
             case TCDEMO.EVENTS.doubleTap:
                 var singleTap = new Hammer.Tap();
-                var doubleTap = new Hammer.Tap({ 
+                var doubleTap = new Hammer.Tap({
                     event: TCDEMO.EVENTS.doubleTap,
                     taps: 2,
-                    interval: 900 });
-                
+                    interval: 900
+                });
+
                 doubleTap.recognizeWith(singleTap);
-                singleTap.requireFailure(doubleTap);  
+                singleTap.requireFailure(doubleTap);
 
                 gestures.add([doubleTap, singleTap]);
                 gestures.get(TCDEMO.EVENTS.doubleTap).dropRequireFailure(TCDEMO.EVENTS.singleTap);
@@ -91,20 +92,22 @@ function EventsController () {
                 break;
             case TCDEMO.EVENTS.twoFingerTap:
                 enableAudioPause();
-                gestures.add(new Hammer.Tap({ 
-                    event: TCDEMO.EVENTS.twoFingerTap, 
+                gestures.add(new Hammer.Tap({
+                    event: TCDEMO.EVENTS.twoFingerTap,
                     taps: 1,
-                    pointers: 2, 
-                    enable: canEnablePauseAudio }));
+                    pointers: 2,
+                    enable: canEnablePauseAudio
+                }));
                 break;
             case TCDEMO.EVENTS.press:
                 gestures.add(new Hammer.Press({ time: 500 }));
                 break;
             case TCDEMO.EVENTS.pinch:
                 disableAudioPause();
-                gestures.add(new Hammer.Pinch({ 
+                gestures.add(new Hammer.Pinch({
                     event: TCDEMO.EVENTS.pinch,
-                    enable: canEnableZoom }));
+                    enable: canEnableZoom
+                }));
                 break;
             case TCDEMO.EVENTS.swipe:
                 gestures.add(new Hammer.Pan({ direction: Hammer.DIRECTION_VERTICAL }));
@@ -112,7 +115,7 @@ function EventsController () {
         }
     };
 
-    function setupHandler (event, callback) {
+    function setupHandler(event, callback) {
         if (event === TCDEMO.EVENTS.doubleTap) {
             setupDoubleClickEvent(callback);
         } else {
@@ -120,35 +123,55 @@ function EventsController () {
                 enableAudioPause();
             }
             gestures.on(event, callback);
-        }        
+        }
     };
 
-    function removeHandler (event, callback) {
+    function removeHandler(event, callback) {
         if (event === TCDEMO.EVENTS.doubleTap) {
-            $(scenario).off( "dblclick" );
+            $(scenario).off("dblclick");
         } else {
             gestures.off(event, callback);
-        } 
+        }
     };
 
     function setupDoubleClickEvent(callback) {
         $(scenario).dblclick(callback);
+
+        if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
+            var touchtime = 0;
+            $(scenario).on("click", function () {
+                if (touchtime == 0) {
+                    // set first click
+                    touchtime = new Date().getTime();
+                } else {
+                    // compare first click to this click and see if they occurred within double click threshold
+                    if (((new Date().getTime()) - touchtime) < 800) {
+                        // double click occurred
+                        console.log("double clicked");
+                        touchtime = 0;
+                    } else {
+                        // not a double click so set as a new first click
+                        touchtime = new Date().getTime();
+                    }
+                }
+            });
+        }
     };
 
-    function start (elementId) {
+    function start(elementId) {
         scenario = $('#' + elementId)[0];
         gestures = new Hammer(scenario);
         $(document.body).on("contextmenu", stopDefaultContextMenu);
     };
 
-    function stop () {
+    function stop() {
         $(document.body).off("contextmenu", stopDefaultContextMenu);
-        $(scenario).off( "dblclick" );
+        $(scenario).off("dblclick");
 
         gestures.destroy();
         gestures = null;
         scenario = null;
-        isPauseAudioEnabled = false;       
+        isPauseAudioEnabled = false;
     };
 
     return {
@@ -159,6 +182,6 @@ function EventsController () {
         setupHandler: setupHandler,
         setupDoubleClick: setupDoubleClickEvent,
         removeHandler: removeHandler,
-        toggleAudioPauseEvent: toggleAudioPause 
+        toggleAudioPauseEvent: toggleAudioPause
     }
 };
