@@ -71,7 +71,7 @@ function Onboarding() {
             description: 'welcome and lets practice',
             audioSrc: 'assets/audios/onboarding/welcome.mp3',
             element: '',
-            length: 7000
+            length: 9000
         },
         {
             step: '2',
