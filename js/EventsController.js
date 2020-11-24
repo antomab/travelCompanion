@@ -135,7 +135,7 @@ function EventsController() {
     };
 
     function setupDoubleClickEvent(callback) {
-        $(scenario).dblclick(callback);
+        //$(scenario).dblclick(callback);
 
         if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
             var touchtime = 0;

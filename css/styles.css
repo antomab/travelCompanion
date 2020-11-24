@@ -53,12 +53,12 @@ SCENARIOS
  */
  
  button {
-  font-size: 2.4rem;
+  padding: 1.2rem;
+  font-size: 1.6rem;
   text-transform: uppercase;
   color: black;
   background-color: #e64a19;
   border: none;
-  padding: 2.5rem;
 }
 button.secondary {
   background-color: #ff7b47;
@@ -96,13 +96,13 @@ button.skip {
 .intermission h1 {
   margin-top: 0;
   text-align: center;
-  font-size: 3.2rem; 
+  font-size: 2.2rem; 
 }
 .intermission p {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
+  margin: auto;
   text-align: center;
   width: 90%;
-  margin: 3rem auto;
 }
 #instructions2.intermission p {
   margin: 0 auto;
@@ -123,7 +123,8 @@ button.skip {
   text-align: center;
 }
 .intermission .button-container button:first-child {
-  margin-right: 3.5rem;
+  margin-right: 1.5rem;
+  margin-bottom: 1rem;
 }
 #instructions2.intermission .button-container,
 #instructions4.intermission .button-container {
@@ -213,7 +214,7 @@ button.skip {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center top;
-  width: 10%;
+  width: 17%;
   height: 30%;
   position: fixed;
   top: 0;
@@ -230,10 +231,14 @@ button.skip {
 @media (orientation: portrait) {
   .badge-menu {
     margin: 2% 6% 0 0;
-    height: 10%;
+    height: 15%;
   }
 }
-
+@media (orientation: landscape) {
+  .badge-menu {
+    margin-left: 13%;
+  }
+}
 .badge-menu .badge-menu-container {
   width: 100%;
   height: 100%;
@@ -278,11 +283,11 @@ button.skip {
 }
 .badge-menu .badge-menu-item .badge-to.to158,
 .badge-menu .badge-menu-item .badge-to.to1 {
-  top: 4rem;
+  top: 2rem;
 }
 .badge-menu .badge-menu-item .badge-to.to6A,
 .badge-menu .badge-menu-item .badge-to.to2 {
-  top: 3.5rem;
+  top: 2rem;
 }
 
 .badge-menu .badge-menu-item .number {
@@ -293,6 +298,12 @@ button.skip {
   background-repeat: no-repeat;
   background-size: 70%;
   background-position: center .7rem;
+}
+@media (orientation: landscape) {  
+  .badge-menu .badge-menu-item.active {
+    background-size: 3rem;
+    background-position: center .5rem;
+  }
 }
 
 
@@ -336,20 +347,7 @@ button.skip {
 
  /* CSS specific to iOS devices */ 
 @supports (-webkit-touch-callout: none) {
-  button {
-    padding: 1.2rem;
-    font-size: 1.6rem;
-  }
- .intermission h1 {
-   font-size: 2.2rem;
- }
- .intermission p {
-   font-size: 1.8rem;
-   margin: auto;
- }
- .intermission .button-container button:first-child {
-   margin-right: 1.5rem;
- }
+
  .badge-menu {
    height: 15%;
    width: 17%;
