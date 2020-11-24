@@ -111,7 +111,7 @@ button.skip {
 #instructions2.intermission p.trigger-survey,
 #instructions4.intermission p.trigger-survey {
   font-style: italic;
-  margin: 2rem auto;
+  margin: 1rem auto;
 }
 #instructions2.intermission p.trigger-survey:last-child,
 #instructions4.intermission p.trigger-survey:last-child {
@@ -134,6 +134,21 @@ button.skip {
 #scenario2 .live-card {
   left: 33rem !important;
 }
+@media (orientation: landscape) {
+  #scenario2 .live-card {
+    left: 8rem !important;
+    top: 6rem !important;
+  }
+  #scenario2 .live-card img {
+    height: 8rem;
+  }
+}
+@media (orientation: portrait) {
+  #scenario2 .live-card {
+    left: 6rem !important;
+    top: 1rem !important;
+  }
+}
 
 
 /* PARALLAX */
@@ -151,6 +166,11 @@ button.skip {
     position: relative;
     overflow: hidden;
     width: 100%;
+}
+@media (orientation: landscape) {
+  .scene {
+    min-height: 22rem;
+  }
 }
 .scene.hide {
   display: none;
@@ -200,11 +220,20 @@ button.skip {
 /* smartphones */
 @media (min-width:320px) {
   #menu #tns1-iw {
-    margin-top: 7.5rem;
+    margin-top: 5rem;
   }
   #menu .menu-item {
-    height: 6rem;
-    margin: 1.5rem 0;
+    height: 4rem;
+    margin: 1rem 0;
+  }
+}
+@media (orientation: portrait) {
+  #menu #tns1-iw {
+    margin-top: 3.5rem;
+  }
+  #menu .menu-item {
+    height: 3rem;
+    margin: .5rem 0;
   }
 }
 
@@ -237,6 +266,8 @@ button.skip {
 @media (orientation: landscape) {
   .badge-menu {
     margin-left: 13%;
+    margin-right: 1%;
+    
   }
 }
 .badge-menu .badge-menu-container {
@@ -281,7 +312,16 @@ button.skip {
   transform-origin: left;
   right: -20%;
 }
-.badge-menu .badge-menu-item .badge-to.to158,
+.badge-menu .badge-menu-item .badge-to.to158 {
+  top: 2.5rem;
+  right: 52%;
+}
+@media (orientation: landscape) {
+.badge-menu .badge-menu-item .badge-to.to158 {
+  right:140%;
+  top: 2;
+}
+}
 .badge-menu .badge-menu-item .badge-to.to1 {
   top: 2rem;
 }
@@ -289,8 +329,14 @@ button.skip {
 .badge-menu .badge-menu-item .badge-to.to2 {
   top: 2rem;
 }
+@media (orientation: landscape) {
+  .badge-menu .badge-menu-item .badge-to.to6A {
+    top: 1.5rem;
+  }
+}
 
-.badge-menu .badge-menu-item .number {
+.badge-menu .badge-menu-item .badge-number {
+  height: 1.3rem;
   margin-top: .7rem;
 }
 .badge-menu .badge-menu-item.active {
@@ -322,18 +368,18 @@ button.skip {
     
 /* 158 - W: 270px  H: 70px   */
 @keyframes slide-out-158 {
-  100% { transform: scaleX(270) scaleY(70); }
+  100% { transform: scaleX(220) scaleY(56); }
 }
 @-webkit-keyframes slide-out-158 {   
-  100% { -webkit-transform: scaleX(270) scaleY(70); }
+  100% { -webkit-transform: scaleX(220) scaleY(56); }
 }
 
 /* 6A - W: 230px  H: 65px   */
 @keyframes slide-out-6A {
-    100% { transform: scaleX(230) scaleY(65); }
+    100% { transform: scaleX(168) scaleY(50); }
 }
 @-webkit-keyframes slide-out-6A {   
-    100% { -webkit-transform: scaleX(230) scaleY(65); }
+    100% { -webkit-transform: scaleX(168) scaleY(50); }
 }
     
 @keyframes slide-in {

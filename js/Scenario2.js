@@ -13,6 +13,7 @@ function Scenario2 () {
     var activeTimeouts = [];
     var parallaxScenario2;
     var interruptedAudio;
+    var mainAudioStopped = false;
     var audioCtrl = new AudioController();
     var eventsCtrl = new EventsController();
     var menuCtrl = new MenuController();    
@@ -21,7 +22,7 @@ function Scenario2 () {
         selectorId: 'scenario2',
         surroundings: {
             audioSrc: 'assets/audios/scenario2/surroundings.mp3',
-            length: 10000
+            length: 14000
         },
         chime: {
             audioSrc: 'assets/audios/scenario2/beepShort.mp3',
@@ -45,7 +46,7 @@ function Scenario2 () {
     function startPlayingMainAudioThread () {
         audioCtrl.play(scenarioInfo.chime.audioSrc);        
     };
-    function interruptMainAudioThread (audioSrc) {
+    function interruptMainAudioThread (audioSrc) {        
         audioCtrl.pause();
         interruptedAudio = audioCtrl.getCurrent();
         
@@ -60,10 +61,13 @@ function Scenario2 () {
             case scenarioInfo.walkingGuide.audioSrc:
                 audioCtrl.play(scenarioInfo.tourGuide.audioSrc, true);
                 break;                
+            case scenarioInfo.tourGuide.audioSrc:
+                mainAudioStopped = true;
+                break;
             case scenarioInfo.liveCard.audioSrc:
             case scenarioInfo.surroundings.audioSrc:
                 // if there was no interruption, do nothing
-                if (!interruptedAudio || interruptedAudio.audioSrc === '') break;
+                if (mainAudioStopped || !interruptedAudio || interruptedAudio.audioSrc === '') break;
 
                 audioCtrl.playAt(interruptedAudio.audioSrc, interruptedAudio.currentTime, true);
                 interruptedAudio = null;
@@ -99,17 +103,9 @@ function Scenario2 () {
     // Show menu on double tap 
     function onDoubleTap () {
         if (!menuCtrl.isOpen()) {
-            // deactivate all other events, but double tap and event listener
-            //destroyEventHandlers();       
-            //eventsCtrl.setupHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);               
-            //$(document).on(TCDEMO.MENU.itemSelectedEvent, (data) => onMenuItemSelected(data));
-
             menuCtrl.open();                      
         } else {
             menuCtrl.close();
-
-            // reactivate events for this scenario
-            //setupEventHandlers();
         }
     };
 
@@ -120,34 +116,24 @@ function Scenario2 () {
 
     // describe surroundings
     function onPress () {       
-        // pause handler for single tap
-        eventsCtrl.removeHandler(TCDEMO.EVENTS.singleTap, onSingleTap);  
-
         interruptMainAudioThread(scenarioInfo.surroundings.audioSrc);
-
-        // resume listening for single tap when audio stops
-        activeTimeouts.push(setTimeout(() => {
-            eventsCtrl.setupHandler(TCDEMO.EVENTS.singleTap, onSingleTap);   
-        }, scenarioInfo.surroundings.length));       
     };
 
     function setupEventHandlers () {
         $(document).on(TCDEMO.MENU.itemSelectedEvent, (data) => onMenuItemSelected(data));
         $(document).on(TCDEMO.AUDIO.audioEndedEvent, (data) => resumeMainAudioThread(data));
-
-        eventsCtrl.setupHandler(TCDEMO.EVENTS.singleTap, onSingleTap);                    
-        eventsCtrl.setupHandler(TCDEMO.EVENTS.press, onPress);                
-        eventsCtrl.setupHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);    
-        eventsCtrl.setupHandler(TCDEMO.EVENTS.twoFingerTap, onTwoFingerTap);    
+                
+        eventsCtrl.setupHandler(TCDEMO.EVENTS.press, onPress);            
+        eventsCtrl.setupHandler(TCDEMO.EVENTS.twoFingerTap, onTwoFingerTap); 
+        
+        eventsCtrl.setupDoubleClick(onDoubleTap, onSingleTap);
     };
 
     function destroyEventHandlers () {
         $(document).off(TCDEMO.MENU.itemSelectedEvent, (data) => onMenuItemSelected(data));
         $(document).off(TCDEMO.AUDIO.audioEndedEvent, (data) => resumeMainAudioThread(data));
-
-        eventsCtrl.removeHandler(TCDEMO.EVENTS.singleTap, onSingleTap);                  
-        eventsCtrl.removeHandler(TCDEMO.EVENTS.press, onPress);                
-        eventsCtrl.removeHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);
+              
+        eventsCtrl.removeHandler(TCDEMO.EVENTS.press, onPress);        
         eventsCtrl.removeHandler(TCDEMO.EVENTS.twoFingerTap, onTwoFingerTap);
     };
 

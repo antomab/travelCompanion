@@ -134,25 +134,22 @@ function EventsController() {
         }
     };
 
-    function setupDoubleClickEvent(callback) {
-            var touchtime = 0;
-            $(scenario).on("click", function () {
-                if (touchtime == 0) {
-                    // set first click
-                    touchtime = new Date().getTime();
-                } else {
-                    // compare first click to this click and see if they occurred within double click threshold
-                    if (((new Date().getTime()) - touchtime) < 800) {
-                        // double click occurred
-                        callback();
-                        touchtime = 0;
-                    } else {
-                        // not a double click so set as a new first click
-                        touchtime = new Date().getTime();
-                    }
-                }
-            });
+    var clickTimer = null;
+    function setupDoubleClickEvent(dblClickCallback, singleClickCallback) {
+        $(scenario).on('click', () => detectClickEvents(dblClickCallback, singleClickCallback));            
     };
+    function detectClickEvents (dblClickCallback, singleClickCallback) {
+        if (clickTimer == null) {
+            clickTimer = setTimeout(function () {
+                clickTimer = null;
+                singleClickCallback();
+            }, 500);        
+        } else {
+            clearTimeout(clickTimer);
+            clickTimer = null;
+            dblClickCallback();
+        }
+    }
 
     function start(elementId) {
         scenario = $('#' + elementId)[0];
@@ -162,7 +159,8 @@ function EventsController() {
 
     function stop() {
         $(document.body).off("contextmenu", stopDefaultContextMenu);
-        $(scenario).off("dblclick");
+        $(scenario).off('click', () => detectClickEvents(dblClickCallback, singleClickCallback));
+        clickTimer = null;
 
         gestures.destroy();
         gestures = null;

@@ -47,16 +47,9 @@ function Scenario1() {
     // Show menu on double tap 
     function onDoubleTap() {
         if (!menuCtrl.isOpen()) {
-            // deactivate all other events, but double tap
-            destroyEventHandlers();
-            eventsCtrl.setupHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);
-
             menuCtrl.open();
         } else {
             menuCtrl.close();
-
-            // reactivate events for this scenario
-            setupEventHandlers();
         }
     };
 
@@ -84,31 +77,21 @@ function Scenario1() {
 
             activeTimeouts.push(setTimeout(endScenario, activeItem.audio.onSelected.length + 2000));
         } else {
-            // pause handler for single tap
-            eventsCtrl.removeHandler(TCDEMO.EVENTS.singleTap, onSingleTap);
-
             audioCtrl.play(scenarioInfo.surroundings.audioSrc, false);
-
-            // resume listening for single tap when audio stops
-            activeTimeouts.push(setTimeout(() => {
-                eventsCtrl.setupHandler(TCDEMO.EVENTS.singleTap, onSingleTap);
-            }, scenarioInfo.surroundings.length));
         }
     };
 
     function setupEventHandlers() {
-        eventsCtrl.setupHandler(TCDEMO.EVENTS.singleTap, onSingleTap);
         eventsCtrl.setupHandler(TCDEMO.EVENTS.swipe, (ev) => onSwipe(ev));
         eventsCtrl.setupHandler(TCDEMO.EVENTS.press, onPress);
-        eventsCtrl.setupHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);
         eventsCtrl.setupHandler(TCDEMO.EVENTS.twoFingerTap, onTwoFingerTap);
+
+        eventsCtrl.setupDoubleClick(onDoubleTap, onSingleTap);
     };
 
     function destroyEventHandlers() {
-        eventsCtrl.removeHandler(TCDEMO.EVENTS.singleTap, onSingleTap);
         eventsCtrl.removeHandler(TCDEMO.EVENTS.swipe, (ev) => onSwipe(ev));
         eventsCtrl.removeHandler(TCDEMO.EVENTS.press, onPress);
-        eventsCtrl.removeHandler(TCDEMO.EVENTS.doubleTap, onDoubleTap);
         eventsCtrl.removeHandler(TCDEMO.EVENTS.twoFingerTap, onTwoFingerTap);
     };
 

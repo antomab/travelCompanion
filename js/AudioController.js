@@ -5,6 +5,7 @@ TCDEMO.AUDIO = {
 
 function AudioController () {
     var audioElement = $('#audio')[0];
+    var isPlaying = false;
 
     function getSrc(currentSrc, baseURI) {
         return currentSrc.replace(baseURI, '');
@@ -12,6 +13,7 @@ function AudioController () {
     function setupEvents () {
         // announce when audio has finished
         audioElement.addEventListener('ended', function(event){
+            isPlaying = false;
             $.event.trigger({
                 type: TCDEMO.AUDIO.audioEndedEvent,
                 audioSrc: getSrc(event.currentTarget.currentSrc, event.currentTarget.baseURI)
@@ -41,6 +43,8 @@ function AudioController () {
     function playAudio (src, withPause) {
         if (typeof(withPause) === 'undefined') withPause = false;
 
+        isPlaying = true;
+
         if (src) {
             setAudioSrc(src);
         } 
@@ -62,17 +66,20 @@ function AudioController () {
 
     function pauseAudio () {
         audioElement.pause();
+        isPlaying = false;
     };
 
     function stopAudio () {
         //audioElement.stop();
         audioElement.pause();
         audioElement.currentTime = 0;
+        isPlaying = false;
     };
 
     function toggleAudio () {        
         if (audioElement.paused) {
             audioElement.play();
+            isPlaying = true;
         } else {
             pauseAudio();
         }
@@ -85,6 +92,10 @@ function AudioController () {
         }
     }
 
+    function isPlaying () {
+        return isPlaying;
+    }
+
     return {
         setup: setupEvents,
         setAudioSource: setAudioSrc,
@@ -93,6 +104,7 @@ function AudioController () {
         pause: pauseAudio,
         stop: stopAudio,
         toggle: toggleAudio,
-        getCurrent: getCurrentPlaying
+        getCurrent: getCurrentPlaying,
+        isPlaying: isPlaying
     }
 };
