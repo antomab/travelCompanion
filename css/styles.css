@@ -393,9 +393,13 @@ button.skip {
 
  /* CSS specific to iOS devices */ 
 @supports (-webkit-touch-callout: none) {
-
  .badge-menu {
    height: 15%;
    width: 17%;
+ }
+ @media (orientation: landscape) {
+   .badge-menu {
+     height: 32%;
+   }
  }
 }
