@@ -366,8 +366,6 @@ function Onboarding() {
                     onDoubleTapCallback()
                 });
 
-
-
                 // play instructions
                 playCurrentStepAudio();
 

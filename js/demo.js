@@ -30,7 +30,7 @@ function Demo() {
         instructions2: {
             elementId: 'instructions2',
             audioSrc: 'assets/audios/instructions/instructions2.mp3',
-            length: 20000
+            length: 12000
         },
         instructions3: {
             elementId: 'instructions3',
@@ -45,7 +45,7 @@ function Demo() {
         instructions4: {
             elementId: 'instructions4',
             audioSrc: 'assets/audios/instructions/instructions4.mp3',
-            length: 19000
+            length: 8000
         },
         end: {
             elementId: 'endTest',
@@ -165,11 +165,6 @@ function Demo() {
         hideScene(scenes.scenario2.elementId);
         showScene(scenes.instructions4.elementId, scenes.instructions4.audioSrc);
     });
-
-
-    // $(document).on(TCDEMO.MENU.itemChangedEvent, (data) => {
-    //     console.log('item changed! ' + data.index);
-    // });
 
 }
 

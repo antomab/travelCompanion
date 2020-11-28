@@ -130,6 +130,10 @@ button.skip {
 #instructions4.intermission .button-container {
   margin-top: 5%;
 }
+#instructions2.intermission .button-container p,
+#instructions4.intermission .button-container p {
+  margin-bottom: 1rem;
+}
 
 #scenario2 .live-card {
   left: 33rem !important;
